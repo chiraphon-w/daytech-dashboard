@@ -1,65 +1,34 @@
+import React from 'react'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import JustSay from './components/JustSay'
+import Counter from './components/Counter'
+// import styles from '../styles/Home.module.css'
+import Timer from './components/Timer'
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div className="w-full h-screen max-h-screen min-w-full bg-gray-200">
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Widgets - Daytech Dashboard</title>
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+      <div className="w-100 max-w-4xl mx-auto p-5">
+        <h1 className="text-4xl font-bold undefined">Daytech Dashboard</h1>
+        <div className="my-5">
+          <a className="inline-block px-4 py-1 mr-1.5 rounded-lg text-white bg-blue-500" href="/">Widgets</a>
+          <a className="inline-block px-4 py-1 mr-1.5 rounded-lg text-blue-500 bg-gray-100" href="/about">About</a>
         </div>
-      </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+        <h2 className="text-2xl undefined">Widgets</h2>
+
+        <div className="pt-3">
+          <div className="md:masonry">
+            <JustSay />
+            <Counter />
+            <Timer />
+          </div>
+        </div>
+
+      </div>
     </div>
   )
 }
