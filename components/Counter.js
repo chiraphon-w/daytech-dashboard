@@ -10,7 +10,7 @@ export default function Counter() {
     }
     else {
         resetButton = <button onClick={() => setCount(0)} className="text-white focus:outline-none px-4 py-1 rounded-md bg-blue-500 hover:bg-blue-600">Reset</button>
-        decrease = <button onClick={() => setCount(count - 1)} className="text-5xl rounded-full w-10 text-center focus:outline-none text-gray-300">-</button>
+        decrease = <button onClick={() => setCount(count - 1)} className="text-5xl rounded-full w-10 text-center focus:outline-none text-blue-500">-</button>
     }
 
     return (

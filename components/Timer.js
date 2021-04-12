@@ -4,15 +4,12 @@ export default function Timer() {
 
     const [time, setTime] = useState(0);
     const [timerOn, setTimerOn] = useState(false);
-
-    // const [second, setSecond] = useState('00');
-    // const [minute, setMinute] = useState('00');
-
+    let sty = " text-white focus:outline-none px-4 py-1 rounded-md bg-blue-500 hover:bg-blue-600";
     useEffect(() => {
         let interval = null;
-        if (timerOn) {
+        if (timerOn) {//second
             interval = setInterval(() => {
-                setTime(prevTime => prevTime + 10)
+                setTime(prevTime => prevTime + 10) 
             }, 10)
         }
         else {
@@ -35,19 +32,19 @@ export default function Timer() {
                         <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span>
                     </div>
                     {!timerOn && (
-                        <button onClick={() => setTimerOn(true)} className=" text-white focus:outline-none px-4 py-1 rounded-md bg-blue-500 hover:bg-blue-600">Start</button>
+                        <button onClick={() => setTimerOn(true)} className={sty}>Start</button>
                     )}
                     {timerOn && (
-                        <button onClick={() => setTimerOn(false)} className=" text-white focus:outline-none px-4 py-1 rounded-md bg-blue-500 hover:bg-blue-600">Pause</button>
+                        <button onClick={() => setTimerOn(false)} className={sty}>Pause</button>
                     )}
                     {!timerOn && time == 0 && (
                         <button onClick={() => { setTime(0); setTimerOn(false) }} className="text-white focus:outline-none px-4 py-1 rounded-md bg-gray-300">Reset</button>
                     )}
                     {timerOn && (
-                        <button onClick={() => { setTime(0); setTimerOn(false) }} className=" text-white focus:outline-none px-4 py-1 rounded-md bg-blue-500 hover:bg-blue-600">Reset</button>
+                        <button onClick={() => { setTime(0); setTimerOn(false) }} className={sty}>Reset</button>
                     )}
                     {!timerOn && time > 0 && (
-                        <button onClick={() => { setTime(0); setTimerOn(false) }} className=" text-white focus:outline-none px-4 py-1 rounded-md bg-blue-500 hover:bg-blue-600">Reset</button>
+                        <button onClick={() => { setTime(0); setTimerOn(false) }} className={sty}>Reset</button>
                     )}
                 </div>
             </div>
