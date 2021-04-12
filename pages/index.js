@@ -1,9 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
-import JustSay from './components/JustSay'
-import Counter from './components/Counter'
+import JustSay from '../components/JustSay'
+import Counter from '../components/Counter'
 // import styles from '../styles/Home.module.css'
-import Timer from './components/Timer'
+import Timer from '../components/Timer'
 
 export default function Home() {
   return (
