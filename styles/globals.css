@@ -2,14 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Add the lines below */
 @layer utilities {
-    @variants responsive {
-      .masonry {
-        column-count: 2;
-        column-gap: 1.5em;
-      }
-      .break-inside {
-        break-inside: avoid;
-      }
+
+  @variants responsive {
+    .masonry {
+      column-count: 2;
+      column-gap: 1.5em;
+    }
+
+    .break-inside {
+      break-inside: avoid;
     }
   }
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
