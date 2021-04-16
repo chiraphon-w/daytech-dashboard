@@ -3,10 +3,10 @@ import Card from '../components/Layouts/Card'
 import Button from '../components/Buttons/Button'
 
 export default function Timer() {
-
+    let disabled = true
     const [time, setTime] = useState(0);
     const [timerOn, setTimerOn] = useState(false);
-    
+
     useEffect(() => {
         let interval = null;
         if (timerOn) {//second
@@ -22,6 +22,19 @@ export default function Timer() {
 
     }, [timerOn])
 
+    const handleClick1 = () => {
+        setTimerOn(true);
+    }
+
+    const handleClick2 = () => {
+        setTimerOn(false);
+    }
+
+    const handleClick3 = () => {
+        setTime(0); 
+        setTimerOn(false);
+    }
+
 
     return (
         <Card title="Timer">
@@ -31,19 +44,19 @@ export default function Timer() {
                     <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span>
                 </div>
                 {!timerOn && (
-                    <button onClick={() => setTimerOn(true)}><Button check={"blue"} buttonName="Start" /></button>
+                    <Button doClick={handleClick1} disabled={!disabled} >Start</Button>
                 )}
                 {timerOn && (
-                    <button onClick={() => setTimerOn(false)}><Button check={"blue"} buttonName="Pause" /></button>
+                    <Button doClick={handleClick2} disabled={!disabled} >Pause</Button>
                 )}
                 {!timerOn && time == 0 && (
-                    <button onClick={() => { setTime(0); setTimerOn(false) }}><Button check={"gray"} buttonName="Reset" /></button>
+                    <Button doClick={handleClick3} disabled={disabled} >Reset</Button>
                 )}
                 {timerOn && (
-                    <button onClick={() => { setTime(0); setTimerOn(false) }}><Button check={"blue"} buttonName="Reset" /></button>
+                    <Button doClick={handleClick3} disabled={!disabled} >Reset</Button>
                 )}
                 {!timerOn && time > 0 && (
-                    <button onClick={() => { setTime(0); setTimerOn(false) }}><Button check={"blue"} buttonName="Reset" /></button>
+                    <Button doClick={handleClick3} disabled={!disabled} >Reset</Button>
                 )}
             </div>
         </Card>
