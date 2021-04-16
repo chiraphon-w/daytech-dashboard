@@ -4,20 +4,24 @@ import Button from '../components/Buttons/Button'
 
 export default function Counter() {
     const [count, setCount] = useState(0);
-    
+
     let countClass = "text-5xl rounded-full w-10 text-center focus:outline-none";
     let countBlue = "text-blue-500";
-    let countGray = "text-gray-300";
 
     let resetButton;
     let decrease;
+    let disabled = true
+
+    const handleClick = () => {
+        setCount(0);
+    }
 
     if (count == 0) {
-        resetButton = <button><Button check={"gray"} buttonName="Reset" /></button>
-        decrease = <button className={`${countClass} + ${countGray}`}>-</button>
+        resetButton = <Button doClick={handleClick} disabled={disabled} >Reset</Button>
+        decrease = <button className={`${countClass} text-gray-300`}>-</button>
     }
     else {
-        resetButton = <button onClick={() => setCount(0)}><Button check={"blue"} buttonName="Reset" /></button>
+        resetButton = <Button doClick={handleClick} disabled={!disabled} >Reset</Button>
         decrease = <button onClick={() => setCount(count - 1)} className={`${countClass} + ${countBlue}`}>-</button>
     }
 
