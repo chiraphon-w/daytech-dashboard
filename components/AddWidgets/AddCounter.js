@@ -40,11 +40,11 @@ export default function AddCounter({
           <input
             type="number"
             name="title"
-            onKeyPress={(event) => {
-              if (!/[0-9]/.test(event.key)) {
-                event.preventDefault();
-              }
-            }}
+            // onKeyPress={(event) => {
+            //   if (!/[0-9]/.test(event.key)) {
+            //     event.preventDefault();
+            //   }
+            // }}
             placeholder="Enter the initial value"
             className="w-full px-2.5 py-1 focus:outline-none rounded-md"
             min="0"

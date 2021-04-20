@@ -65,29 +65,17 @@ export default function WidgetTools() {
   let disabled = true;
   let check;
 
-  //   console.log(counter);
+  //
 
-  const handleAddWidgets = function (key) {
+  const handleAddWidgets = function (list, index) {
     if (listAllWidgets.length > 0) {
+      console.log(listAllWidgets);
       return listAllWidgets.map((list, index) => {
         if (list.type === "justSay") {
-          return (
-            <>
-              <div className={cardSty}>
-                <JustSay title={justSay} list={list}/>
-              </div>
-            </>
-          );
+          return <JustSay title={justSay} list={list} />;
+        } else if (list.type === "counter") {
+          return <Counter title={counter} list={list} />;
         }
-        else if (list.type === "counter") {
-            return (
-              <>
-                <div className={cardSty}>
-                  <Counter title={counter} list={list} />
-                </div>
-              </>
-            );
-          }
       });
       // for (let i = 0; i <= listAllWidgets.length; i++) {
       //   console.log(listAllWidgets, "listAllWidgets");
@@ -109,7 +97,7 @@ export default function WidgetTools() {
     else {
       return (
         <>
-          <div className={cardSty}>
+          {/* <div className={cardSty}> */}
             <Card title=" ">
               <div className="text-center text-gray-400 my-8 font-light">
                 <p className="text-4xl mb-2">No widgets at all </p>
@@ -126,7 +114,7 @@ export default function WidgetTools() {
                 </p>
               </div>
             </Card>
-          </div>
+          {/* </div> */}
         </>
       );
     }
@@ -180,7 +168,7 @@ export default function WidgetTools() {
             />
           </Modal>
         )}
-        
+
         {modalActiveCounter && (
           <Modal onCancel={handleCancel}>
             <AddCounter
