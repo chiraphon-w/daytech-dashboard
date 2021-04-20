@@ -24,6 +24,7 @@ export default function WidgetTools() {
   const [counter, setCounter] = useState("");
   const [timer, setTimer] = useState("");
   const [listAllWidgets, setListAllWidgets] = useState([]);
+
   let check = false;
 
   const handleClick = function () {
@@ -67,7 +68,6 @@ export default function WidgetTools() {
   };
 
   let d = new Date();
-
   let ye = new Intl.DateTimeFormat("en", { year: "2-digit" }).format(d);
   let mo = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
   let da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
@@ -76,7 +76,6 @@ export default function WidgetTools() {
     minute: "2-digit",
     second: "2-digit",
   }).format(d);
-
   const realTime = `Added on ${mo} ${da}, ${ye}, ${hms}`;
 
   let ct = "mx-auto text-4xl";
@@ -88,7 +87,7 @@ export default function WidgetTools() {
   const handleClear = function () {
     setListAllWidgets([]);
   };
-  
+
   let clearBtn = (
     <Button doClick={handleClear} check={check} disabled={!disabled}>
       <BiBomb className={iconSty} /> Clear all
@@ -103,7 +102,6 @@ export default function WidgetTools() {
     );
   }
 
-  let checkja = check;
   const handleAddWidgets = function () {
     if (listAllWidgets.length > 0) {
       console.log(listAllWidgets);
