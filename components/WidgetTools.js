@@ -24,6 +24,7 @@ export default function WidgetTools() {
   const [counter, setCounter] = useState("");
   const [timer, setTimer] = useState("");
   const [listAllWidgets, setListAllWidgets] = useState([]);
+  let check = false;
 
   const handleClick = function () {
     setModalActiveMenu(true);
@@ -81,9 +82,28 @@ export default function WidgetTools() {
   let ct = "mx-auto text-4xl";
   let menuSty = "w-1/3 pt-1.5 pl-1.5";
   let cardSty = "md:flex md:flex-wrap md:-mr-4";
-  let disabled = true;
-  let check;
+  let disabled = false;
+  let iconSty = "inline-block text-xl relative -top-0.5";
 
+  const handleClear = function () {
+    setListAllWidgets([]);
+  };
+  
+  let clearBtn = (
+    <Button doClick={handleClear} check={check} disabled={!disabled}>
+      <BiBomb className={iconSty} /> Clear all
+    </Button>
+  );
+
+  if (listAllWidgets.length > 0) {
+    clearBtn = (
+      <Button doClick={handleClear} check={!check} disabled={!disabled}>
+        <BiBomb className={iconSty} /> Clear all
+      </Button>
+    );
+  }
+
+  let checkja = check;
   const handleAddWidgets = function () {
     if (listAllWidgets.length > 0) {
       console.log(listAllWidgets);
@@ -125,15 +145,10 @@ export default function WidgetTools() {
       <h2 className="text-xl undefined">Widgets</h2>
       <div className="pt-3">
         <div className="mb-4 space-x-1">
-          <Button doClick={handleClick} disabled={!disabled}>
-            <RiAddCircleLine className="inline-block text-xl relative -top-0.5" />{" "}
-            Add Widget
+          <Button doClick={handleClick} disabled={disabled}>
+            <RiAddCircleLine className={iconSty} /> Add Widget
           </Button>
-
-          <Button disabled={disabled}>
-            <BiBomb className="inline-block text-xl relative -top-0.5" /> Clear
-            all
-          </Button>
+          {clearBtn}
         </div>
 
         <div className={cardSty}>{handleAddWidgets()}</div>
