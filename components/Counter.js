@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import Card from "../components/Layouts/Card";
 import Button from "../components/Buttons/Button";
 
-export default function Counter({ title, listAllWidgets }) {
-  return listAllWidgets.map((list, index) => {
-    console.log(list);
+export default function Counter({ title, list, index }) {
+  // return listAllWidgets.map((list, index) => {
     const [count, setCount] = useState(list.value);
-    // setCount() += list.value;
 
     let countClass =
       "text-5xl rounded-full w-10 text-center focus:outline-none";
@@ -63,5 +61,5 @@ export default function Counter({ title, listAllWidgets }) {
         </div>
       </Card>
     );
-  });
-}
+  }
+// }

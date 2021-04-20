@@ -1,9 +1,9 @@
 import React from "react";
 import Card from "../components/Layouts/Card";
 
-export default function JustSay({ title, listAllWidgets }) {
-  return listAllWidgets.map((list, index) => {
-    //   console.log(list, "list");
+export default function JustSay({ title, list, index  }) {
+//   return listAllWidgets.map((list, index) => {
+      console.log(list, "xxxxxx ");
     return (
       <Card title="JustSay" key={index}>
         <div className="text-center my-8">
@@ -14,6 +14,8 @@ export default function JustSay({ title, listAllWidgets }) {
         </div>
       </Card>
     );
-  });
-}
+  }
+  
+//   );
+// }
 

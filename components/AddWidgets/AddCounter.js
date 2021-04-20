@@ -26,6 +26,7 @@ export default function AddCounter({
       value: Number(e.target.title.value),
       id: id,
       date: realTime,
+      type: "counter"
     };
     console.log("value : ",data.value);
     setListAllWidgets([...listAllWidgets, data]);

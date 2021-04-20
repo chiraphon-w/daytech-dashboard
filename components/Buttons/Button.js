@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 
-const Button = ({  doClick, disabled, children }) => {
+const Button = ({  disabled, children, doClick = () => {} }) => {
     function getButtonClass() {
     return classnames(
         "text-white focus:outline-none px-4 py-1 rounded-md",
@@ -12,17 +12,17 @@ const Button = ({  doClick, disabled, children }) => {
 
         });
     }
-    function handleClick() {
-        if(doClick){
-            doClick()
-        }
-    }
+    // function handleClick() {
+    //     if(doClick){
+    //         doClick()
+    //     }
+    // }
 
     // function handleClickAdd() {
     //     doClick()
     // }
     return (
-      <button className={getButtonClass()} onClick={handleClick}>{children}</button>
+      <button className={getButtonClass()} onClick={doClick}>{children}</button>
     );
   }
 

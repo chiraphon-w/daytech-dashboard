@@ -65,19 +65,36 @@ export default function WidgetTools() {
   let disabled = true;
   let check;
 
-  const handleAddWidgets = function () {
+  //   console.log(counter);
+
+  const handleAddWidgets = function (key) {
     if (listAllWidgets.length > 0) {
+      return listAllWidgets.map((list, index) => {
+        if (list.type === "justSay") {
+          return (
+            <>
+              <div className={cardSty}>
+                <JustSay title={justSay} list={list}/>
+              </div>
+            </>
+          );
+        }
+        else if (list.type === "counter") {
+            return (
+              <>
+                <div className={cardSty}>
+                  <Counter title={counter} list={list} />
+                </div>
+              </>
+            );
+          }
+      });
       // for (let i = 0; i <= listAllWidgets.length; i++) {
-      console.log(listAllWidgets,"listAllWidgets");
+      //   console.log(listAllWidgets, "listAllWidgets");
       // }
 
       // if ((listAllWidgets.title=="counter")) {
       //   console.log("if counter");
-      return (
-        <div className={cardSty}>
-          <Counter title={counter} listAllWidgets={listAllWidgets} />
-        </div>
-      );
     }
     //  else if ((listAllWidgets.title=="justSay")) {
     //   console.log("if justSay");
@@ -91,87 +108,92 @@ export default function WidgetTools() {
     // }
     else {
       return (
-        <div className={cardSty}>
-          <Card title=" ">
-            <div className="text-center text-gray-400 my-8 font-light">
-              <p className="text-4xl mb-2">No widgets at all </p>
-              <p>
-                Click{" "}
-                <button
-                  onClick={handleClick}
-                  className="font-normal text-blue-400 focus:outline-none"
-                >
-                  {" "}
-                  HERE{" "}
-                </button>{" "}
-                to add a new one
-              </p>
-            </div>
-          </Card>
-        </div>
+        <>
+          <div className={cardSty}>
+            <Card title=" ">
+              <div className="text-center text-gray-400 my-8 font-light">
+                <p className="text-4xl mb-2">No widgets at all </p>
+                <p>
+                  Click{" "}
+                  <button
+                    onClick={handleClick}
+                    className="font-normal text-blue-400 focus:outline-none"
+                  >
+                    {" "}
+                    HERE{" "}
+                  </button>{" "}
+                  to add a new one
+                </p>
+              </div>
+            </Card>
+          </div>
+        </>
       );
     }
   };
 
   return (
-    <div className="mb-4 space-x-1">
-      <Button doClick={handleClick} disabled={!disabled}>
-        <RiAddCircleLine className="inline-block text-xl relative -top-0.5" />{" "}
-        Add Widget
-      </Button>
+    <>
+      <div className="mb-4 space-x-1">
+        <Button doClick={handleClick} disabled={!disabled}>
+          <RiAddCircleLine className="inline-block text-xl relative -top-0.5" />{" "}
+          Add Widget
+        </Button>
 
-      <Button disabled={disabled}>
-        <BiBomb className="inline-block text-xl relative -top-0.5" /> Clear all
-      </Button>
+        <Button disabled={disabled}>
+          <BiBomb className="inline-block text-xl relative -top-0.5" /> Clear
+          all
+        </Button>
 
-      <div className="pt-3.5">{handleAddWidgets()}</div>
-      {modalActiveMenu && (
-        <Modal onCancel={handleCancel}>
-          <h2 className="text-xl undefined">Add widget</h2>
-          <div className=" flex flex-wrap text-center mt-1.5 -ml-1.5">
-            <div onClick={handleJustSay} className={menuSty}>
-              <WidgetsCard title="JustSay">
-                <AiOutlineMessage className={ct} />
-              </WidgetsCard>
+        <div className="pt-3.5">{handleAddWidgets()}</div>
+        {modalActiveMenu && (
+          <Modal onCancel={handleCancel}>
+            <h2 className="text-xl undefined">Add widget</h2>
+            <div className=" flex flex-wrap text-center mt-1.5 -ml-1.5">
+              <div onClick={handleJustSay} className={menuSty}>
+                <WidgetsCard title="JustSay">
+                  <AiOutlineMessage className={ct} />
+                </WidgetsCard>
+              </div>
+              <div onClick={handleCounter} className={menuSty}>
+                <WidgetsCard title="Counter">
+                  <RiIncreaseDecreaseLine className={ct} />
+                </WidgetsCard>
+              </div>
+              <div onClick={handleTimer} className={menuSty}>
+                <WidgetsCard title="Timer">
+                  <IoTimerOutline className={ct} />
+                </WidgetsCard>
+              </div>
             </div>
-            <div onClick={handleCounter} className={menuSty}>
-              <WidgetsCard title="Counter">
-                <RiIncreaseDecreaseLine className={ct} />
-              </WidgetsCard>
-            </div>
-            <div onClick={handleTimer} className={menuSty}>
-              <WidgetsCard title="Timer">
-                <IoTimerOutline className={ct} />
-              </WidgetsCard>
-            </div>
-          </div>
-        </Modal>
-      )}
+          </Modal>
+        )}
 
-      {modalActiveJustSay && (
-        <Modal onCancel={handleCancel}>
-          <AddJustSay
-            setJustSay={setJustSay}
-            handleAddWidgets={handleAddWidgets}
-            handleCancel={handleCancel}
-            setListAllWidgets={setListAllWidgets}
-            listAllWidgets={listAllWidgets}
-            realTime={realTime}
-          />
-        </Modal>
-      )}
-      {modalActiveCounter && (
-        <Modal onCancel={handleCancel}>
-          <AddCounter
-            setCounter={setCounter}
-            handleAddWidgets={handleAddWidgets}
-            handleCancel={handleCancel}
-            setListAllWidgets={setListAllWidgets}
-            listAllWidgets={listAllWidgets}
-            realTime={realTime}
-          />
-        </Modal>
-      )}
-    </div>
+        {modalActiveJustSay && (
+          <Modal onCancel={handleCancel}>
+            <AddJustSay
+              setJustSay={setJustSay}
+              handleCancel={handleCancel}
+              setListAllWidgets={setListAllWidgets}
+              listAllWidgets={listAllWidgets}
+              realTime={realTime}
+            />
+          </Modal>
+        )}
+        
+        {modalActiveCounter && (
+          <Modal onCancel={handleCancel}>
+            <AddCounter
+              setCounter={setCounter}
+              handleCancel={handleCancel}
+              setListAllWidgets={setListAllWidgets}
+              listAllWidgets={listAllWidgets}
+              realTime={realTime}
+            />
+          </Modal>
+        )}
+        {handleAddWidgets}
+      </div>
+    </>
   );
 }

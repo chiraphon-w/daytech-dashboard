@@ -30,6 +30,7 @@ export default function AddJustSay({
         value: e.target.title.value.trim(),
         id: id,
         date: realTime,
+        type: "justSay"
       };
       setListAllWidgets([...listAllWidgets, data]);
     }
@@ -42,10 +43,7 @@ export default function AddJustSay({
           <input
             type="text"
             name="title"
-            // onKeyPress={(e) => {
-            //   e.target.title.value.trim();
-        
-            // }}
+            
             className="w-full px-2.5 py-1 focus:outline-none rounded-md"
             placeholder="Enter text"
           />

@@ -7,16 +7,16 @@ import WidgetTools from "./WidgetTools";
 export default function Widgets() {
   return (
     <>
-      <h2 className="text-xl">Widgets</h2>
+      {/* <h2 className="text-xl undefined">Widgets</h2>
       <div className="pt-3">
         <div className="mb-4">
-          <WidgetTools />
+          <WidgetTools /> */}
 
           {/* <JustSay />
             <Counter /> 
             <Timer />*/}
-        </div>
-      </div>
+        {/* </div>
+      </div> */}
       {/* </div> */}
     </>
   );

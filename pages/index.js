@@ -1,6 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
-import Widgets from '../components/Widgets'
+import WidgetTools from '../components/WidgetTools'
+// import Widgets from '../components/Widgets'
 
 export default function Home() {
 
@@ -9,7 +10,13 @@ export default function Home() {
       <Head>
         <title>Widgets - Daytech Dashboard</title>
       </Head>
-      <Widgets />
+      <h2 className="text-xl undefined">Widgets</h2>
+      <div className="pt-3">
+        <div className="mb-4">
+          <WidgetTools />
+
+        </div>
+      </div>
     </div>
   )
 }
