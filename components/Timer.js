@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Card from "../components/Layouts/Card";
 import Button from "../components/Buttons/Button";
 
-export default function Timer() {
+export default function Timer({ title, list, index  }) {
   let disabled = true;
   const [time, setTime] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
@@ -33,7 +33,11 @@ export default function Timer() {
     setTime(0);
     setTimerOn(false);
   };
+  // list.value = time;
 
+  
+  console.log("add timer 1");
+  list.value = time;
   return (
     <Card title="Timer">
       <div className="text-center space-x-1">

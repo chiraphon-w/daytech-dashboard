@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import Widgets from '../components/Widgets'
+import WidgetTools from '../components/WidgetTools'
 
 export default function Home() {
 
@@ -9,7 +9,7 @@ export default function Home() {
       <Head>
         <title>Widgets - Daytech Dashboard</title>
       </Head>
-      <Widgets />
+      <WidgetTools />
     </div>
   )
 }

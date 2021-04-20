@@ -7,6 +7,7 @@ export default function AddJustSay({
   setListAllWidgets,
   listAllWidgets,
   realTime,
+  handleAddWidgets
 }) {
   const [checkError, setCheckError] = useState("");
 
@@ -43,7 +44,7 @@ export default function AddJustSay({
           <input
             type="text"
             name="title"
-            
+
             className="w-full px-2.5 py-1 focus:outline-none rounded-md"
             placeholder="Enter text"
           />

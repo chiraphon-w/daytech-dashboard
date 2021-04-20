@@ -7,29 +7,33 @@ export default function AddCounter({
   setListAllWidgets,
   listAllWidgets,
   realTime,
+  handleAddWidgets
 }) {
   const [checkError, setCheckError] = useState("");
-
   const onSubmit = (e) => {
     e.preventDefault();
-    setCounter(e.target.title.value);
-    handleCancel();
 
-    let id;
-    if (listAllWidgets.length == 0) {
-      id = 1;
+    if (e.target.title.value < 0) {
+      setCheckError("Please enter at least 0.");
     } else {
-      const lastArray = listAllWidgets.slice(-1).pop(); // .slice(-1).pop() เลือก array ตัวสุดท้ายมาให้
-      id = lastArray.id + 1;
+      setCounter(e.target.title.value.trim());
+      handleCancel();
+
+      let id;
+      if (listAllWidgets.length == 0) {
+        id = 1;
+      } else {
+        const lastArray = listAllWidgets.slice(-1).pop(); // .slice(-1).pop() เลือก array ตัวสุดท้ายมาให้
+        id = lastArray.id + 1;
+      }
+      const data = {
+        value: e.target.title.value.trim(),
+        id: id,
+        date: realTime,
+        type: "counter"
+      };
+      setListAllWidgets([...listAllWidgets, data]);
     }
-    const data = {
-      value: Number(e.target.title.value),
-      id: id,
-      date: realTime,
-      type: "counter"
-    };
-    console.log("value : ",data.value);
-    setListAllWidgets([...listAllWidgets, data]);
   };
 
   return (

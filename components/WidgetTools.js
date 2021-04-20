@@ -14,11 +14,13 @@ import JustSay from "./JustSay";
 import Counter from "./Counter";
 import Button from "./Buttons/Button";
 import Timer from "./Timer";
+import AddTimer from "./AddWidgets/AddTimer";
 
 export default function WidgetTools() {
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
   const [modalActiveJustSay, setModalActiveJustSay] = useState(false);
   const [modalActiveCounter, setModalActiveCounter] = useState(false);
+  const [modalActiveTimer, setModalActiveTimer] = useState(false);
 
   const [justSay, setJustSay] = useState("");
   const [counter, setCounter] = useState("");
@@ -39,8 +41,27 @@ export default function WidgetTools() {
     setCounter();
   };
   const handleTimer = function () {
+    // setModalActiveTimer(true);
     setModalActiveMenu(false);
+    setTimer("");
+    handleCancel();
+
+    let id;
+    if (listAllWidgets.length == 0) {
+      id = 1;
+    } else {
+      const lastArray = listAllWidgets.slice(-1).pop(); // .slice(-1).pop() เลือก array ตัวสุดท้ายมาให้
+      id = lastArray.id + 1;
+    }
+    const data = {
+      value: "",
+      id: id,
+      date: realTime,
+      type: "timer",
+    };
+    setListAllWidgets([...listAllWidgets, data]);
   };
+  
   const handleCancel = function () {
     setModalActiveMenu(false);
     setModalActiveJustSay(false);
@@ -66,23 +87,23 @@ export default function WidgetTools() {
   let disabled = true;
   let check;
 
-  //
-
-  const handleAddWidgets = function (key = 15454) {
+  const handleAddWidgets = function () {
     if (listAllWidgets.length > 0) {
       console.log(listAllWidgets);
       return listAllWidgets.map((list, index) => {
         if (list.type === "justSay") {
-          return <JustSay title={justSay} list={list} />;
+          return <JustSay key={index} title={justSay} list={list} />;
         } else if (list.type === "counter") {
-          return <Counter title={counter} list={list} />;
+          return <Counter key={index} title={counter} list={list} />;
+        } else if (list.type === "timer") {
+          console.log("add timer");
+          return <Timer key={index} title={timer} list={list} />;
         }
       });
       console.log("if counter");
     } else {
       return (
         <>
-          {/* <div className={cardSty}> */}
           <Card title=" ">
             <div className="text-center text-gray-400 my-8 font-light">
               <p className="text-4xl mb-2">No widgets at all </p>
@@ -99,7 +120,6 @@ export default function WidgetTools() {
               </p>
             </div>
           </Card>
-          {/* </div> */}
         </>
       );
     }
@@ -150,6 +170,7 @@ export default function WidgetTools() {
           <Modal onCancel={handleCancel}>
             <AddJustSay
               setJustSay={setJustSay}
+              handleAddWidgets={handleAddWidgets}
               handleCancel={handleCancel}
               setListAllWidgets={setListAllWidgets}
               listAllWidgets={listAllWidgets}
@@ -162,6 +183,7 @@ export default function WidgetTools() {
           <Modal onCancel={handleCancel}>
             <AddCounter
               setCounter={setCounter}
+              handleAddWidgets={handleAddWidgets}
               handleCancel={handleCancel}
               setListAllWidgets={setListAllWidgets}
               listAllWidgets={listAllWidgets}
@@ -169,7 +191,19 @@ export default function WidgetTools() {
             />
           </Modal>
         )}
-        {handleAddWidgets}
+
+        {/* {modalActiveTimer && (
+          <Modal onCancel={handleCancel}>
+            <AddTimer
+              setTimer={setTimer}
+              handleAddWidgets={handleAddWidgets}
+              handleCancel={handleCancel}
+              setListAllWidgets={setListAllWidgets}
+              listAllWidgets={listAllWidgets}
+              realTime={realTime}
+            />
+          </Modal>
+        )} */}
       </div>
     </>
   );
