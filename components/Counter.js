@@ -35,14 +35,14 @@ export default function Counter({ title, listAllWidgets }) {
       );
       decrease = (
         <button
-          onClick={() => setCount(count - 1)}
+          onClick={() => setCount(list.value - 1)}
           className={`${countClass} + ${countBlue}`}
         >
           -
         </button>
       );
     }
-
+    list.value = count;
     return (
       <Card title="Counter" key={index}>
         <div className="text-center">
@@ -50,7 +50,7 @@ export default function Counter({ title, listAllWidgets }) {
             {decrease}
             <div className="text-6xl mx-7">{count}</div>
             <button
-              onClick={() => setCount(count + list.value + 1)}
+              onClick={() => setCount(list.value + 1)}
               className={`${countClass} + ${countBlue}`}
             >
               +

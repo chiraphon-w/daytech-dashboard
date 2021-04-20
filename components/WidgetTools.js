@@ -60,6 +60,7 @@ export default function WidgetTools() {
   const realTime = `Added on ${mo} ${da}, ${ye}, ${hms}`;
 
   let ct = "mx-auto text-4xl";
+  let menuSty = "w-1/3 pt-1.5 pl-1.5";
   let cardSty = "md:flex md:flex-wrap md:-mr-4";
   let disabled = true;
   let check;
@@ -67,14 +68,14 @@ export default function WidgetTools() {
   const handleAddWidgets = function () {
     if (listAllWidgets.length > 0) {
       // for (let i = 0; i <= listAllWidgets.length; i++) {
-        console.log(listAllWidgets);
+      console.log(listAllWidgets,"listAllWidgets");
       // }
 
       // if ((listAllWidgets.title=="counter")) {
       //   console.log("if counter");
       return (
         <div className={cardSty}>
-          <JustSay title={justSay} listAllWidgets={listAllWidgets} />
+          <Counter title={counter} listAllWidgets={listAllWidgets} />
         </div>
       );
     }
@@ -119,7 +120,7 @@ export default function WidgetTools() {
         Add Widget
       </Button>
 
-      <Button>
+      <Button disabled={disabled}>
         <BiBomb className="inline-block text-xl relative -top-0.5" /> Clear all
       </Button>
 
@@ -128,15 +129,21 @@ export default function WidgetTools() {
         <Modal onCancel={handleCancel}>
           <h2 className="text-xl undefined">Add widget</h2>
           <div className=" flex flex-wrap text-center mt-1.5 -ml-1.5">
-            <WidgetsCard title="JustSay">
-              <AiOutlineMessage onClick={handleJustSay} className={ct} />
-            </WidgetsCard>
-            <WidgetsCard title="Counter">
-              <RiIncreaseDecreaseLine onClick={handleCounter} className={ct} />
-            </WidgetsCard>
-            <WidgetsCard title="Timer">
-              <IoTimerOutline onClick={handleTimer} className={ct} />
-            </WidgetsCard>
+            <div onClick={handleJustSay} className={menuSty}>
+              <WidgetsCard title="JustSay">
+                <AiOutlineMessage className={ct} />
+              </WidgetsCard>
+            </div>
+            <div onClick={handleCounter} className={menuSty}>
+              <WidgetsCard title="Counter">
+                <RiIncreaseDecreaseLine className={ct} />
+              </WidgetsCard>
+            </div>
+            <div onClick={handleTimer} className={menuSty}>
+              <WidgetsCard title="Timer">
+                <IoTimerOutline className={ct} />
+              </WidgetsCard>
+            </div>
           </div>
         </Modal>
       )}

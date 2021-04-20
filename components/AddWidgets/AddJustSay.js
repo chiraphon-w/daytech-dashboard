@@ -12,10 +12,11 @@ export default function AddJustSay({
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     if (e.target.title.value.length < 3) {
       setCheckError("Please enter at least 3 characters.");
     } else {
-      setJustSay(e.target.title.value);
+      setJustSay(e.target.title.value.trim());
       handleCancel();
 
       let id;
@@ -26,14 +27,13 @@ export default function AddJustSay({
         id = lastArray.id + 1;
       }
       const data = {
-        value: e.target.title.value,
+        value: e.target.title.value.trim(),
         id: id,
         date: realTime,
       };
       setListAllWidgets([...listAllWidgets, data]);
     }
   };
-
   return (
     <div>
       <h2 className="text-xl mb-2">Add JustSay</h2>
@@ -42,6 +42,10 @@ export default function AddJustSay({
           <input
             type="text"
             name="title"
+            // onKeyPress={(e) => {
+            //   e.target.title.value.trim();
+        
+            // }}
             className="w-full px-2.5 py-1 focus:outline-none rounded-md"
             placeholder="Enter text"
           />

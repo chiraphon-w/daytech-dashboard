@@ -12,7 +12,6 @@ export default function AddCounter({
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     setCounter(e.target.title.value);
     handleCancel();
 
@@ -24,10 +23,11 @@ export default function AddCounter({
       id = lastArray.id + 1;
     }
     const data = {
-      value: e.target.title.value,
+      value: Number(e.target.title.value),
       id: id,
       date: realTime,
     };
+    console.log("value : ",data.value);
     setListAllWidgets([...listAllWidgets, data]);
   };
 
