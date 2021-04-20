@@ -15,7 +15,11 @@ export default function AddCounter({
 
     if (Number(e.target.title.value) < 0) {
       setCheckError("Please enter at least 0.");
-    } else {
+    } 
+    else if(e.target.title.value === ""){
+      setCheckError("Please provide some value.");
+    }
+    else {
       setCounter(Number(e.target.title.value));
       handleCancel();
 
