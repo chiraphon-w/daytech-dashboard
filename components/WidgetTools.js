@@ -14,7 +14,6 @@ import JustSay from "./JustSay";
 import Counter from "./Counter";
 import Button from "./Buttons/Button";
 import Timer from "./Timer";
-import AddTimer from "./AddWidgets/AddTimer";
 
 export default function WidgetTools() {
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
@@ -61,7 +60,7 @@ export default function WidgetTools() {
     };
     setListAllWidgets([...listAllWidgets, data]);
   };
-  
+
   const handleCancel = function () {
     setModalActiveMenu(false);
     setModalActiveJustSay(false);
@@ -96,11 +95,9 @@ export default function WidgetTools() {
         } else if (list.type === "counter") {
           return <Counter key={index} title={counter} list={list} />;
         } else if (list.type === "timer") {
-          console.log("add timer");
           return <Timer key={index} title={timer} list={list} />;
         }
       });
-      console.log("if counter");
     } else {
       return (
         <>
@@ -191,19 +188,6 @@ export default function WidgetTools() {
             />
           </Modal>
         )}
-
-        {/* {modalActiveTimer && (
-          <Modal onCancel={handleCancel}>
-            <AddTimer
-              setTimer={setTimer}
-              handleAddWidgets={handleAddWidgets}
-              handleCancel={handleCancel}
-              setListAllWidgets={setListAllWidgets}
-              listAllWidgets={listAllWidgets}
-              realTime={realTime}
-            />
-          </Modal>
-        )} */}
       </div>
     </>
   );

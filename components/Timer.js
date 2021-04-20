@@ -33,10 +33,7 @@ export default function Timer({ title, list, index  }) {
     setTime(0);
     setTimerOn(false);
   };
-  // list.value = time;
-
   
-  console.log("add timer 1");
   list.value = time;
   return (
     <Card title="Timer">
