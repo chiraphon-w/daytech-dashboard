@@ -22,6 +22,7 @@ export default function WidgetTools() {
 
   const [justSay, setJustSay] = useState("");
   const [counter, setCounter] = useState("");
+  const [timer, setTimer] = useState("");
   const [listAllWidgets, setListAllWidgets] = useState([]);
 
   const handleClick = function () {
@@ -67,7 +68,7 @@ export default function WidgetTools() {
 
   //
 
-  const handleAddWidgets = function (list, index) {
+  const handleAddWidgets = function (key = 15454) {
     if (listAllWidgets.length > 0) {
       console.log(listAllWidgets);
       return listAllWidgets.map((list, index) => {
@@ -77,43 +78,27 @@ export default function WidgetTools() {
           return <Counter title={counter} list={list} />;
         }
       });
-      // for (let i = 0; i <= listAllWidgets.length; i++) {
-      //   console.log(listAllWidgets, "listAllWidgets");
-      // }
-
-      // if ((listAllWidgets.title=="counter")) {
-      //   console.log("if counter");
-    }
-    //  else if ((listAllWidgets.title=="justSay")) {
-    //   console.log("if justSay");
-
-    //   return (
-    //     <div className={cardSty}>
-    //       <JustSay title={justSay} listAllWidgets={listAllWidgets} />
-    //     </div>
-    //   );
-    // }
-    // }
-    else {
+      console.log("if counter");
+    } else {
       return (
         <>
           {/* <div className={cardSty}> */}
-            <Card title=" ">
-              <div className="text-center text-gray-400 my-8 font-light">
-                <p className="text-4xl mb-2">No widgets at all </p>
-                <p>
-                  Click{" "}
-                  <button
-                    onClick={handleClick}
-                    className="font-normal text-blue-400 focus:outline-none"
-                  >
-                    {" "}
-                    HERE{" "}
-                  </button>{" "}
-                  to add a new one
-                </p>
-              </div>
-            </Card>
+          <Card title=" ">
+            <div className="text-center text-gray-400 my-8 font-light">
+              <p className="text-4xl mb-2">No widgets at all </p>
+              <p>
+                Click{" "}
+                <button
+                  onClick={handleClick}
+                  className="font-normal text-blue-400 focus:outline-none"
+                >
+                  {" "}
+                  HERE{" "}
+                </button>{" "}
+                to add a new one
+              </p>
+            </div>
+          </Card>
           {/* </div> */}
         </>
       );
@@ -122,18 +107,22 @@ export default function WidgetTools() {
 
   return (
     <>
-      <div className="mb-4 space-x-1">
-        <Button doClick={handleClick} disabled={!disabled}>
-          <RiAddCircleLine className="inline-block text-xl relative -top-0.5" />{" "}
-          Add Widget
-        </Button>
+      <h2 className="text-xl undefined">Widgets</h2>
+      <div className="pt-3">
+        <div className="mb-4 space-x-1">
+          <Button doClick={handleClick} disabled={!disabled}>
+            <RiAddCircleLine className="inline-block text-xl relative -top-0.5" />{" "}
+            Add Widget
+          </Button>
 
-        <Button disabled={disabled}>
-          <BiBomb className="inline-block text-xl relative -top-0.5" /> Clear
-          all
-        </Button>
+          <Button disabled={disabled}>
+            <BiBomb className="inline-block text-xl relative -top-0.5" /> Clear
+            all
+          </Button>
+        </div>
 
-        <div className="pt-3.5">{handleAddWidgets()}</div>
+        <div className={cardSty}>{handleAddWidgets()}</div>
+
         {modalActiveMenu && (
           <Modal onCancel={handleCancel}>
             <h2 className="text-xl undefined">Add widget</h2>
