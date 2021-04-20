@@ -13,10 +13,10 @@ export default function AddCounter({
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (e.target.title.value < 0) {
+    if (Number(e.target.title.value) < 0) {
       setCheckError("Please enter at least 0.");
     } else {
-      setCounter(e.target.title.value.trim());
+      setCounter(Number(e.target.title.value));
       handleCancel();
 
       let id;
@@ -27,7 +27,7 @@ export default function AddCounter({
         id = lastArray.id + 1;
       }
       const data = {
-        value: e.target.title.value.trim(),
+        value: Number(e.target.title.value),
         id: id,
         date: realTime,
         type: "counter"

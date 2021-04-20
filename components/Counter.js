@@ -21,14 +21,14 @@ export default function Counter({ title, list, index }) {
     if (count == 0) {
       resetButton = (
         <Button doClick={handleClick} disabled={disabled}>
-          Reset
+          Set zero
         </Button>
       );
       decrease = <button className={`${countClass} text-gray-300`}>-</button>;
     } else {
       resetButton = (
         <Button doClick={handleClick} disabled={!disabled}>
-          Reset
+          Set zero
         </Button>
       );
       decrease = (

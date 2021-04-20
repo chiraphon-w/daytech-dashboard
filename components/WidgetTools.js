@@ -19,7 +19,6 @@ export default function WidgetTools() {
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
   const [modalActiveJustSay, setModalActiveJustSay] = useState(false);
   const [modalActiveCounter, setModalActiveCounter] = useState(false);
-  const [modalActiveTimer, setModalActiveTimer] = useState(false);
 
   const [justSay, setJustSay] = useState("");
   const [counter, setCounter] = useState("");
@@ -40,7 +39,6 @@ export default function WidgetTools() {
     setCounter();
   };
   const handleTimer = function () {
-    // setModalActiveTimer(true);
     setModalActiveMenu(false);
     setTimer("");
     handleCancel();
@@ -112,7 +110,7 @@ export default function WidgetTools() {
                 >
                   {" "}
                   HERE{" "}
-                </button>{" "}
+                </button>
                 to add a new one
               </p>
             </div>
