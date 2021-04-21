@@ -1,57 +1,47 @@
 import React, { useState } from "react";
-import Modal from "./Layouts/Modal";
-import {
-  RiAddCircleLine,
-  RiIncreaseDecreaseLine,
-  RiSettings3Line,
-} from "react-icons/ri";
+import Button from "./Buttons/Button";
+import ModalSetting from "./ModalSetting";
+import { RiAddCircleLine, RiIncreaseDecreaseLine, RiSettings3Line } from "react-icons/ri";
 import { BiBomb } from "react-icons/bi";
-import WidgetsCard from "./Layouts/WidgetsCard";
 import { AiOutlineMessage } from "react-icons/ai";
 import { IoTimerOutline } from "react-icons/io5";
 
+import WidgetsCard from "./Layouts/WidgetsCard";
 import NoWidgets from "./Layouts/NoWidgets";
+import Modal from "./Layouts/Modal";
+
 import AddJustSay from "./AddWidgets/AddJustSay";
 import AddCounter from "./AddWidgets/AddCounter";
 import JustSay from "./JustSay";
 import Counter from "./Counter";
-import Button from "./Buttons/Button";
 import Timer from "./Timer";
-import ModalSetting from "./ModalSetting";
+
+
+
 
 export default function WidgetTools() {
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
   const [modalActiveJustSay, setModalActiveJustSay] = useState(false);
-  const [modalActiveCounter, setModalActiveCounter] = useState(false);
-  const [modalActiveSetting, setModalActiveSetting] = useState(false);
+  const [modalActiveCounter, setModalActiveCounter] = useState(false); 
+  const [modalActiveSetting, setModalActiveSetting] = useState(false); 
 
-  const [justSay, setJustSay] = useState("");
-  const [counter, setCounter] = useState("");
-  const [timer, setTimer] = useState("");
   const [listAllWidgets, setListAllWidgets] = useState([]);
-  let disabled = false;
-  let checkColor = "";
-  //   let red="";
-  //   let darkGray="";
+
+  let red = false;
 
   const handleClick = function () {
     setModalActiveMenu(true);
   };
   const handleJustSay = function () {
     setModalActiveJustSay(true);
-    setModalActiveMenu(true);
-    setJustSay();
+    setModalActiveMenu(false);
   };
   const handleCounter = function () {
     setModalActiveCounter(true);
     setModalActiveMenu(false);
-    setCounter();
   };
-  const handleTimer = function () {
-    setModalActiveMenu(false);
-    setTimer("");
-    handleCancel();
 
+  const handleAdd = function (type, value) {
     let id;
     if (listAllWidgets.length == 0) {
       id = 1;
@@ -60,12 +50,13 @@ export default function WidgetTools() {
       id = lastArray.id + 1;
     }
     const data = {
-      value: "",
       id: id,
       date: realTime,
-      type: "timer",
+      type,
+      value,
     };
     setListAllWidgets([...listAllWidgets, data]);
+    handleCancel();
   };
 
   const handleCancel = function () {
@@ -89,7 +80,7 @@ export default function WidgetTools() {
   let ct = "mx-auto text-4xl";
   let menuSty = "w-1/3 pt-1.5 pl-1.5";
   let cardSty = "md:flex md:flex-wrap md:-mr-4";
-
+  let disabled = false;
   let iconSty = "inline-block text-xl relative -top-0.5";
 
   const handleClear = function () {
@@ -97,6 +88,7 @@ export default function WidgetTools() {
   };
   const handleSetting = function () {
     setModalActiveSetting(true);
+    setListAllWidgets([]);
   };
 
   let SettingBtn = (
@@ -104,8 +96,6 @@ export default function WidgetTools() {
       <RiSettings3Line className={iconSty} /> Settings
     </Button>
   );
-
-  console.log(SettingBtn);
 
   let clearBtn = (
     <Button doClick={handleClear} disabled={!disabled}>
@@ -121,24 +111,19 @@ export default function WidgetTools() {
     );
   }
 
-  const handleAddWidgets = function () {
+  const addWidgetPanal = function () {
     if (listAllWidgets.length > 0) {
-      console.log(listAllWidgets);
       return listAllWidgets.map((list, index) => {
         if (list.type === "justSay") {
-          return <JustSay key={index} title={justSay} list={list} />;
+          return <JustSay key={index} list={list} />;
         } else if (list.type === "counter") {
-          return <Counter key={index} title={counter} list={list} />;
+          return <Counter key={index} list={list} />;
         } else if (list.type === "timer") {
-          return <Timer key={index} title={timer} list={list} />;
+          return <Timer key={index} list={list} />;
         }
       });
     } else {
-      return (
-        <>
-          <NoWidgets />
-        </>
-      );
+      return <NoWidgets />;
     }
   };
 
@@ -146,14 +131,14 @@ export default function WidgetTools() {
     <>
       <h2 className="text-xl undefined">Widgets</h2>
       <div className="pt-3">
-        <div className="mb-4 space-x-1.5">
+        <div className="mb-4 space-x-1">
           <Button doClick={handleClick} disabled={disabled}>
             <RiAddCircleLine className={iconSty} /> Add Widget
           </Button>
           {SettingBtn}
         </div>
 
-        <div className={cardSty}>{handleAddWidgets()}</div>
+        <div className={cardSty}>{addWidgetPanal()}</div>
 
         {modalActiveMenu && (
           <Modal onCancel={handleCancel}>
@@ -169,7 +154,12 @@ export default function WidgetTools() {
                   <RiIncreaseDecreaseLine className={ct} />
                 </WidgetsCard>
               </div>
-              <div onClick={handleTimer} className={menuSty}>
+              <div
+                onClick={() => {
+                  handleAdd("timer", "");
+                }}
+                className={menuSty}
+              >
                 <WidgetsCard title="Timer">
                   <IoTimerOutline className={ct} />
                 </WidgetsCard>
@@ -180,39 +170,19 @@ export default function WidgetTools() {
 
         {modalActiveJustSay && (
           <Modal onCancel={handleCancel}>
-            <AddJustSay
-              setJustSay={setJustSay}
-              handleAddWidgets={handleAddWidgets}
-              handleCancel={handleCancel}
-              setListAllWidgets={setListAllWidgets}
-              listAllWidgets={listAllWidgets}
-              realTime={realTime}
-            />
+            <AddJustSay onAdd={handleAdd} />
           </Modal>
         )}
 
         {modalActiveCounter && (
           <Modal onCancel={handleCancel}>
-            <AddCounter
-              setCounter={setCounter}
-              handleAddWidgets={handleAddWidgets}
-              handleCancel={handleCancel}
-              setListAllWidgets={setListAllWidgets}
-              listAllWidgets={listAllWidgets}
-              realTime={realTime}
-            />
+            <AddCounter onAdd={handleAdd} />
           </Modal>
         )}
+
         {modalActiveSetting && (
           <Modal onCancel={handleCancel}>
-            <ModalSetting
-            //   setJustSay={setJustSay}
-            //   handleAddWidgets={handleAddWidgets}
-            //   handleCancel={handleCancel}
-            //   setListAllWidgets={setListAllWidgets}
-            //   listAllWidgets={listAllWidgets}
-            //   realTime={realTime}
-            />
+            <ModalSetting onAdd={handleAdd} />
           </Modal>
         )}
       </div>

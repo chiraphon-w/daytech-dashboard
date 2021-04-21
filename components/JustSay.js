@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "../components/Layouts/Card";
 
-export default function JustSay({ title, list, index }) {
-  //   return listAllWidgets.map((list, index) => {
+export default function JustSay({ list, index  }) {
+
   return (
     <Card title="JustSay" key={index}>
       <div className="text-center my-8">
