@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import Modal from "../components/Modal";
-import { RiAddCircleLine, RiIncreaseDecreaseLine } from "react-icons/ri";
+import Modal from "./Layouts/Modal";
+import {
+  RiAddCircleLine,
+  RiIncreaseDecreaseLine,
+  RiSettings3Line,
+} from "react-icons/ri";
 import { BiBomb } from "react-icons/bi";
-
 import WidgetsCard from "./Layouts/WidgetsCard";
 import { AiOutlineMessage } from "react-icons/ai";
 import { IoTimerOutline } from "react-icons/io5";
@@ -14,11 +17,13 @@ import JustSay from "./JustSay";
 import Counter from "./Counter";
 import Button from "./Buttons/Button";
 import Timer from "./Timer";
+import ModalSetting from "./Layouts/modalSetting";
 
 export default function WidgetTools() {
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
   const [modalActiveJustSay, setModalActiveJustSay] = useState(false);
   const [modalActiveCounter, setModalActiveCounter] = useState(false);
+  const [modalActiveSetting, setModalActiveSetting] = useState(false);
 
   const [justSay, setJustSay] = useState("");
   const [counter, setCounter] = useState("");
@@ -26,6 +31,7 @@ export default function WidgetTools() {
   const [listAllWidgets, setListAllWidgets] = useState([]);
 
   let red = false;
+  let darkGray = false;
 
   const handleClick = function () {
     setModalActiveMenu(true);
@@ -65,6 +71,7 @@ export default function WidgetTools() {
     setModalActiveMenu(false);
     setModalActiveJustSay(false);
     setModalActiveCounter(false);
+    setModalActiveSetting(false);
   };
 
   let d = new Date();
@@ -87,6 +94,15 @@ export default function WidgetTools() {
   const handleClear = function () {
     setListAllWidgets([]);
   };
+  const handleSetting = function () {
+    setModalActiveSetting(true);
+  };
+
+  let SettingBtn = (
+    <Button doClick={handleSetting} darkGray={!darkGray} disabled={!disabled}>
+      <RiSettings3Line className={iconSty} /> Settings
+    </Button>
+  );
 
   let clearBtn = (
     <Button doClick={handleClear} red={red} disabled={!disabled}>
@@ -126,9 +142,8 @@ export default function WidgetTools() {
                   onClick={handleClick}
                   className="font-normal text-blue-400 focus:outline-none"
                 >
-                  {" "}
                   HERE{" "}
-                </button>
+                </button>{" "}
                 to add a new one
               </p>
             </div>
@@ -142,11 +157,11 @@ export default function WidgetTools() {
     <>
       <h2 className="text-xl undefined">Widgets</h2>
       <div className="pt-3">
-        <div className="mb-4 space-x-1">
+        <div className="mb-4 space-x-1.5">
           <Button doClick={handleClick} disabled={disabled}>
             <RiAddCircleLine className={iconSty} /> Add Widget
           </Button>
-          {clearBtn}
+          {SettingBtn}
         </div>
 
         <div className={cardSty}>{handleAddWidgets()}</div>
@@ -191,6 +206,18 @@ export default function WidgetTools() {
           <Modal onCancel={handleCancel}>
             <AddCounter
               setCounter={setCounter}
+              handleAddWidgets={handleAddWidgets}
+              handleCancel={handleCancel}
+              setListAllWidgets={setListAllWidgets}
+              listAllWidgets={listAllWidgets}
+              realTime={realTime}
+            />
+          </Modal>
+        )}
+        {modalActiveSetting && (
+          <Modal onCancel={handleCancel}>
+            <ModalSetting
+              setJustSay={setJustSay}
               handleAddWidgets={handleAddWidgets}
               handleCancel={handleCancel}
               setListAllWidgets={setListAllWidgets}
