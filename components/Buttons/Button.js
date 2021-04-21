@@ -1,17 +1,17 @@
 import React from "react";
 import classnames from "classnames";
 
-const Button = ({ disabled, children, doClick = () => {}, red, drakGray }) => {
+
+const Button = ({ disabled, children, doClick = () => {}, checkColor }) => {
   function getButtonClass() {
     return classnames("text-white focus:outline-none px-4 py-1 rounded-md", {
       "bg-blue-500 hover:bg-blue-600": !disabled,
-      "bg-gray-300": disabled || !red || drakGray,
-      "bg-red-500 hover:bg-red-600": red,
-      "bg-gray-500 hover:bg-gray-600": !drakGray,
-
+      "bg-gray-300": disabled && checkColor !== "darkGray",
+      "bg-red-500 hover:bg-red-600": checkColor === "red",
+      "bg-gray-500 hover:bg-gray-600": checkColor === "darkGray",
     });
   }
-
+  
   // function handleClickAdd() {
   //     doClick()
   // }

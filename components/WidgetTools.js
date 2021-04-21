@@ -10,14 +10,14 @@ import WidgetsCard from "./Layouts/WidgetsCard";
 import { AiOutlineMessage } from "react-icons/ai";
 import { IoTimerOutline } from "react-icons/io5";
 
-import Card from "./Layouts/Card";
+import NoWidgets from "./Layouts/NoWidgets";
 import AddJustSay from "./AddWidgets/AddJustSay";
 import AddCounter from "./AddWidgets/AddCounter";
 import JustSay from "./JustSay";
 import Counter from "./Counter";
 import Button from "./Buttons/Button";
 import Timer from "./Timer";
-import ModalSetting from "./Layouts/modalSetting";
+import ModalSetting from "./ModalSetting";
 
 export default function WidgetTools() {
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
@@ -29,16 +29,17 @@ export default function WidgetTools() {
   const [counter, setCounter] = useState("");
   const [timer, setTimer] = useState("");
   const [listAllWidgets, setListAllWidgets] = useState([]);
-
-  let red = false;
-  let darkGray = false;
+  let disabled = false;
+  let checkColor = "";
+  //   let red="";
+  //   let darkGray="";
 
   const handleClick = function () {
     setModalActiveMenu(true);
   };
   const handleJustSay = function () {
     setModalActiveJustSay(true);
-    setModalActiveMenu(false);
+    setModalActiveMenu(true);
     setJustSay();
   };
   const handleCounter = function () {
@@ -88,7 +89,7 @@ export default function WidgetTools() {
   let ct = "mx-auto text-4xl";
   let menuSty = "w-1/3 pt-1.5 pl-1.5";
   let cardSty = "md:flex md:flex-wrap md:-mr-4";
-  let disabled = false;
+
   let iconSty = "inline-block text-xl relative -top-0.5";
 
   const handleClear = function () {
@@ -99,20 +100,22 @@ export default function WidgetTools() {
   };
 
   let SettingBtn = (
-    <Button doClick={handleSetting} darkGray={!darkGray} disabled={!disabled}>
+    <Button doClick={handleSetting} checkColor="darkGray" disabled={!disabled}>
       <RiSettings3Line className={iconSty} /> Settings
     </Button>
   );
 
+  console.log(SettingBtn);
+
   let clearBtn = (
-    <Button doClick={handleClear} red={red} disabled={!disabled}>
+    <Button doClick={handleClear} disabled={!disabled}>
       <BiBomb className={iconSty} /> Clear all
     </Button>
   );
 
   if (listAllWidgets.length > 0) {
     clearBtn = (
-      <Button doClick={handleClear} red={!red} disabled={!disabled}>
+      <Button doClick={handleClear} disabled={!disabled}>
         <BiBomb className={iconSty} /> Clear all
       </Button>
     );
@@ -133,21 +136,7 @@ export default function WidgetTools() {
     } else {
       return (
         <>
-          <Card title=" ">
-            <div className="text-center text-gray-400 my-8 font-light">
-              <p className="text-4xl mb-2">No widgets at all </p>
-              <p>
-                Click{" "}
-                <button
-                  onClick={handleClick}
-                  className="font-normal text-blue-400 focus:outline-none"
-                >
-                  HERE{" "}
-                </button>{" "}
-                to add a new one
-              </p>
-            </div>
-          </Card>
+          <NoWidgets />
         </>
       );
     }
@@ -217,12 +206,12 @@ export default function WidgetTools() {
         {modalActiveSetting && (
           <Modal onCancel={handleCancel}>
             <ModalSetting
-              setJustSay={setJustSay}
-              handleAddWidgets={handleAddWidgets}
-              handleCancel={handleCancel}
-              setListAllWidgets={setListAllWidgets}
-              listAllWidgets={listAllWidgets}
-              realTime={realTime}
+            //   setJustSay={setJustSay}
+            //   handleAddWidgets={handleAddWidgets}
+            //   handleCancel={handleCancel}
+            //   setListAllWidgets={setListAllWidgets}
+            //   listAllWidgets={listAllWidgets}
+            //   realTime={realTime}
             />
           </Modal>
         )}

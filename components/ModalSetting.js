@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../Buttons/Button";
+import Button from "./Buttons/Button";
 
 export default function ModalSetting({
   setJustSay,
