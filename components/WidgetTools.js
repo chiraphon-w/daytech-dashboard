@@ -25,7 +25,7 @@ export default function WidgetTools() {
   const [timer, setTimer] = useState("");
   const [listAllWidgets, setListAllWidgets] = useState([]);
 
-  let check = false;
+  let red = false;
 
   const handleClick = function () {
     setModalActiveMenu(true);
@@ -89,14 +89,14 @@ export default function WidgetTools() {
   };
 
   let clearBtn = (
-    <Button doClick={handleClear} check={check} disabled={!disabled}>
+    <Button doClick={handleClear} red={red} disabled={!disabled}>
       <BiBomb className={iconSty} /> Clear all
     </Button>
   );
 
   if (listAllWidgets.length > 0) {
     clearBtn = (
-      <Button doClick={handleClear} check={!check} disabled={!disabled}>
+      <Button doClick={handleClear} red={!red} disabled={!disabled}>
         <BiBomb className={iconSty} /> Clear all
       </Button>
     );
