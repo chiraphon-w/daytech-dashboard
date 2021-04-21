@@ -1,7 +1,11 @@
 import React from "react";
 import { IoClose } from "react-icons/io5";
 
-export default function Card({ title, children, onCancel = () => {}  }) {
+export default function Card({ title, children, onDelete = () => {}  }) {
+
+  const handleClick = function(e) {
+    onDelete(e);
+  }
   return (
     <div className="md:inner md:w-1/2 pb-4 md:pr-4">
       <div className="p-5 border-1 bg-white rounded-2xl relative undefined">
@@ -9,7 +13,7 @@ export default function Card({ title, children, onCancel = () => {}  }) {
         <div className="absolute top-5 right-5">
           <button
             className="text-lg text-gray-600 focus:outline-none undefined"
-            onClick={onCancel}
+            onClick={handleClick}
           >
             <IoClose />
           </button>

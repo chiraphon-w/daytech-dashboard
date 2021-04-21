@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import Card from "../components/Layouts/Card";
 
-export default function JustSay({ list, index  }) {
+export default function JustSay({ list, onDelete }) {
+
+  const handleDelete = function () {
+    onDelete(list);
+  }
 
   return (
-    <Card title="JustSay" key={index}>
+    <Card title="JustSay" key={list.id} onDelete={handleDelete}>
       <div className="text-center my-8">
         <h1 className="text-4xl font-bold">{list.value}</h1>
       </div>

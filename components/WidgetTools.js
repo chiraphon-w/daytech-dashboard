@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import Button from "./Buttons/Button";
 import ModalSetting from "./ModalSetting";
-import { RiAddCircleLine, RiIncreaseDecreaseLine, RiSettings3Line } from "react-icons/ri";
+import {
+  RiAddCircleLine,
+  RiIncreaseDecreaseLine,
+  RiSettings3Line,
+} from "react-icons/ri";
 import { BiBomb } from "react-icons/bi";
 import { AiOutlineMessage } from "react-icons/ai";
 import { IoTimerOutline } from "react-icons/io5";
@@ -16,18 +20,15 @@ import JustSay from "./JustSay";
 import Counter from "./Counter";
 import Timer from "./Timer";
 
-
-
-
 export default function WidgetTools() {
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
   const [modalActiveJustSay, setModalActiveJustSay] = useState(false);
-  const [modalActiveCounter, setModalActiveCounter] = useState(false); 
-  const [modalActiveSetting, setModalActiveSetting] = useState(false); 
+  const [modalActiveCounter, setModalActiveCounter] = useState(false);
+  const [modalActiveSetting, setModalActiveSetting] = useState(false);
 
   const [listAllWidgets, setListAllWidgets] = useState([]);
-
-  let red = false;
+  const [Widgets, setWidgets] = useState([]);
+  const [selectedWidget, setSelectedWidget] = useState([]);
 
   const handleClick = function () {
     setModalActiveMenu(true);
@@ -40,6 +41,37 @@ export default function WidgetTools() {
     setModalActiveCounter(true);
     setModalActiveMenu(false);
   };
+  const handleCancel = function () {
+    setModalActiveMenu(false);
+    setModalActiveJustSay(false);
+    setModalActiveCounter(false);
+    setModalActiveSetting(false);
+  };
+  const handleClear = function () {
+    setListAllWidgets([]);
+  };
+  const handleSetting = function () {
+    setModalActiveSetting(true);
+    setListAllWidgets([]);
+  };
+
+  let ct = "mx-auto text-4xl";
+  let menuSty = "w-1/3 pt-1.5 pl-1.5";
+  let cardSty = "md:flex md:flex-wrap md:-mr-4";
+  let iconSty = "inline-block text-xl relative -top-0.5";
+  let disabled = false;
+
+  //   function realTime
+  let d = new Date();
+  let ye = new Intl.DateTimeFormat("en", { year: "2-digit" }).format(d);
+  let mo = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
+  let da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
+  let hms = new Intl.DateTimeFormat("en", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).format(d);
+  const realTime = `Added on ${mo} ${da}, ${ye}, ${hms}`;
 
   const handleAdd = function (type, value) {
     let id;
@@ -59,71 +91,84 @@ export default function WidgetTools() {
     handleCancel();
   };
 
-  const handleCancel = function () {
-    setModalActiveMenu(false);
-    setModalActiveJustSay(false);
-    setModalActiveCounter(false);
-    setModalActiveSetting(false);
-  };
+  //   let SettingBtn = (
+  //     <Button doClick={handleSetting} checkColor="darkGray" disabled={!disabled}>
+  //       <RiSettings3Line className={iconSty} /> Settings
+  //     </Button>
+  //   );
 
-  let d = new Date();
-  let ye = new Intl.DateTimeFormat("en", { year: "2-digit" }).format(d);
-  let mo = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
-  let da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
-  let hms = new Intl.DateTimeFormat("en", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  }).format(d);
-  const realTime = `Added on ${mo} ${da}, ${ye}, ${hms}`;
+  //   let clearBtn = (
+  //     <Button doClick={handleClear} disabled={!disabled}>
+  //       <BiBomb className={iconSty} /> Clear all
+  //     </Button>
+  //   );
 
-  let ct = "mx-auto text-4xl";
-  let menuSty = "w-1/3 pt-1.5 pl-1.5";
-  let cardSty = "md:flex md:flex-wrap md:-mr-4";
-  let disabled = false;
-  let iconSty = "inline-block text-xl relative -top-0.5";
-
-  const handleClear = function () {
-    setListAllWidgets([]);
-  };
-  const handleSetting = function () {
-    setModalActiveSetting(true);
-    setListAllWidgets([]);
-  };
-
-  let SettingBtn = (
-    <Button doClick={handleSetting} checkColor="darkGray" disabled={!disabled}>
-      <RiSettings3Line className={iconSty} /> Settings
-    </Button>
-  );
-
-  let clearBtn = (
-    <Button doClick={handleClear} disabled={!disabled}>
-      <BiBomb className={iconSty} /> Clear all
-    </Button>
-  );
-
-  if (listAllWidgets.length > 0) {
-    clearBtn = (
-      <Button doClick={handleClear} disabled={!disabled}>
-        <BiBomb className={iconSty} /> Clear all
-      </Button>
-    );
-  }
+  //   if (listAllWidgets.length > 0) {
+  //     clearBtn = (
+  //       <Button doClick={handleClear} disabled={!disabled}>
+  //         <BiBomb className={iconSty} /> Clear all
+  //       </Button>
+  //     );
+  //   }
 
   const addWidgetPanal = function () {
     if (listAllWidgets.length > 0) {
-      return listAllWidgets.map((list, index) => {
+      return listAllWidgets.map((list) => {
         if (list.type === "justSay") {
-          return <JustSay key={index} list={list} />;
+          return (
+            <JustSay
+              key={list.id}
+              list={list}
+              onDelete={handleDelete}
+              setSelectedWidget={setSelectedWidget}
+            />
+          );
         } else if (list.type === "counter") {
-          return <Counter key={index} list={list} />;
+          return (
+            <Counter
+              key={list.id}
+              list={list}
+              onDelete={handleDelete}
+              setSelectedWidget={setSelectedWidget}
+            />
+          );
         } else if (list.type === "timer") {
-          return <Timer key={index} list={list} />;
+          return (
+            <Timer
+              key={list.id}
+              list={list}
+              onDelete={handleDelete}
+              setSelectedWidget={setSelectedWidget}
+            />
+          );
         }
       });
     } else {
       return <NoWidgets />;
+    }
+  };
+
+  const handleDelete = function (list) {
+    // console.log("listAllWidgets 1", listAllWidgets);
+    if (listAllWidgets.length > 0) {
+      setListAllWidgets(
+        listAllWidgets.filter((widget) => widget.id !== list.id)
+      );
+
+      // console.log("selectedWidget", selectedWidget);
+      // console.log("listAllWidgets 2", listAllWidgets);
+      //   console.log("widget", widget);
+      //   return listAllWidgets.map((list, index) => {
+      //     if (list.type === "justSay") {
+      //       return <JustSay key={index} list={list} onDelete={handleDelete}/>;
+      //     } else if (list.type === "counter") {
+      //       return <Counter key={index} list={list} />;
+      //     } else if (list.type === "timer") {
+      //       return <Timer key={index} list={list} />;
+      //     }
+      //   });
+      // } else {
+      //   return <NoWidgets />;
     }
   };
 
@@ -135,7 +180,14 @@ export default function WidgetTools() {
           <Button doClick={handleClick} disabled={disabled}>
             <RiAddCircleLine className={iconSty} /> Add Widget
           </Button>
-          {SettingBtn}
+          <Button
+            doClick={handleSetting}
+            checkColor="darkGray"
+            disabled={!disabled}
+          >
+            <RiSettings3Line className={iconSty} /> Settings
+          </Button>
+          {/* {SettingBtn} */}
         </div>
 
         <div className={cardSty}>{addWidgetPanal()}</div>
@@ -156,7 +208,7 @@ export default function WidgetTools() {
               </div>
               <div
                 onClick={() => {
-                  handleAdd("timer", "");
+                  handleAdd("timer", ""); // ส่ง type="timer", value=""
                 }}
                 className={menuSty}
               >

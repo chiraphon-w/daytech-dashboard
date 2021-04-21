@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Card from '../components/Layouts/Card';
 import Button from '../components/Buttons/Button';
 
-export default function Counter({ list, index }) {
+export default function Counter({ list, onDelete }) {
   const [count, setCount] = useState(list.value);
 
   let countClass = 'text-5xl rounded-full w-10 text-center focus:outline-none';
@@ -36,8 +36,13 @@ export default function Counter({ list, index }) {
     );
   }
   list.value = count;
+
+  const handleDelete = function () {
+    onDelete(list);
+  }
+
   return (
-    <Card title='Counter' key={index}>
+    <Card title='Counter' key={list.id} onDelete={handleDelete}>
       <div className='text-center'>
         <div className='flex items-center justify-center mt-4 mb-6'>
           {decrease}

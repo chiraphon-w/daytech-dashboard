@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Card from "../components/Layouts/Card";
 import Button from "../components/Buttons/Button";
 
-export default function Timer({ title, list, index  }) {
+export default function Timer({ list, onDelete }) {
   let disabled = true;
   const [time, setTime] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
@@ -21,49 +21,53 @@ export default function Timer({ title, list, index  }) {
     return () => clearInterval(interval);
   }, [timerOn]);
 
-  const handleClick1 = () => {
+  const handleClickStart = () => {
     setTimerOn(true);
   };
 
-  const handleClick2 = () => {
+  const handleClickPause = () => {
     setTimerOn(false);
   };
 
-  const handleClick3 = () => {
+  const handleClickReset = () => {
     setTime(0);
     setTimerOn(false);
   };
   
+  const handleDelete = function () {
+    onDelete(list);
+  }
+
   list.value = time;
   return (
-    <Card title="Timer">
+    <Card title="Timer" key={list.id} onDelete={handleDelete}>
       <div className="text-center space-x-1">
         <div className="text-6xl mx-7 flex items-center justify-center mt-4 mb-6">
           <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
           <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span>
         </div>
         {!timerOn && (
-          <Button doClick={handleClick1} disabled={!disabled}>
+          <Button doClick={handleClickStart} disabled={!disabled}>
             Start
           </Button>
         )}
         {timerOn && (
-          <Button doClick={handleClick2} disabled={!disabled}>
+          <Button doClick={handleClickPause} disabled={!disabled}>
             Pause
           </Button>
         )}
         {!timerOn && time == 0 && (
-          <Button doClick={handleClick3} disabled={disabled}>
+          <Button doClick={handleClickReset} disabled={disabled}>
             Reset
           </Button>
         )}
         {timerOn && (
-          <Button doClick={handleClick3} disabled={!disabled}>
+          <Button doClick={handleClickReset} disabled={!disabled}>
             Reset
           </Button>
         )}
         {!timerOn && time > 0 && (
-          <Button doClick={handleClick3} disabled={!disabled}>
+          <Button doClick={handleClickReset} disabled={!disabled}>
             Reset
           </Button>
         )}
