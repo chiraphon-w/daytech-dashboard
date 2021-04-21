@@ -9,7 +9,6 @@ const Button = ({  disabled, children, doClick = () => {}, red  }) => {
             "bg-blue-500 hover:bg-blue-600": !disabled,
             "bg-gray-300": disabled || !red,
             "bg-red-500 hover:bg-red-600" : red,
-
         });
     }
 
