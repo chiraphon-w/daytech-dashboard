@@ -3,8 +3,6 @@ import Button from '../Buttons/Button';
 
 export default function EditJustSay({ onEditSubmit, list }) {
   const [checkError, setCheckError] = useState('');
-  // let id = list.id;
-
   const onSubmit = (e) => {
     e.preventDefault();
     if (e.target.title.value.length < 3) {
@@ -24,6 +22,7 @@ export default function EditJustSay({ onEditSubmit, list }) {
             type='text'
             name='title'
             className='w-full px-2.5 py-1 focus:outline-none rounded-md'
+            defaultValue={list.value}
             placeholder='Enter text'
           />
         </div>
