@@ -10,10 +10,9 @@ export default function Timer({ list, onDelete }) {
   useEffect(() => {
     let interval = null;
     if (timerOn) {
-      //second
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 10);
-      }, 10);
+        setTime((prevTime) => prevTime + 1);
+      }, 1000);
     } else {
       clearInterval(interval);
     }
@@ -38,13 +37,20 @@ export default function Timer({ list, onDelete }) {
     onDelete(list);
   }
 
+  const formatTime = () => {
+    const getSeconds = `0${time % 60}`.slice(-2);
+    const minutes = `${Math.floor(time / 60)}`;
+    const getMinutes = `0${minutes % 60}`.slice(-2);
+    return `${getMinutes}:${getSeconds}`;
+  };
+
+
   list.value = time;
   return (
     <Card title="Timer" key={list.id} onDelete={handleDelete}>
       <div className="text-center space-x-1">
         <div className="text-6xl mx-7 flex items-center justify-center mt-4 mb-6">
-          <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
-          <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span>
+           <div className='text-6xl mx-7'>{formatTime(time)}</div>
         </div>
         {!timerOn && (
           <Button doClick={handleClickStart} disabled={!disabled}>

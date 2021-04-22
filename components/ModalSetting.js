@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Button from "./Buttons/Button";
 
 export default function ModalSetting({ listAllWidgets }) {
-  console.log(listAllWidgets, "modal");
   let totalWidgets = listAllWidgets.length;
   let justSayLength = 0;
   let sumCount = 0;
