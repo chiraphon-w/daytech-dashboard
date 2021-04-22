@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import Button from '../Buttons/Button';
 
-export default function AddJustSay({ onAdd }) {
+export default function EditJustSay({ onEditSubmit, list }) {
   const [checkError, setCheckError] = useState('');
+  // let id = list.id;
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (e.target.title.value.length < 3) {
       setCheckError('Please enter at least 3 characters.');
-    } else {
-      onAdd('justSay', e.target.title.value.trim()); //ส่งข้อมูล type, value กลับไปยัง handleAdd ใน WidgetTools
+    }
+     else {
+       console.log(list,"in EditJustSay");
+      onEditSubmit(list.id, e.target.title.value.trim()); 
     }
   };
   return (
     <div>
-      <h2 className='text-xl mb-2'>Add JustSay</h2>
+      <h2 className='text-xl mb-2'>Edit JustSay</h2>
       <form onSubmit={onSubmit} className='flex'>
         <div className='flex-1 mr-1'>
           <input
