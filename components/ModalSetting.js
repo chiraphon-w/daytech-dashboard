@@ -2,29 +2,20 @@ import React, { useState } from "react";
 import Button from "./Buttons/Button";
 
 export default function ModalSetting({ listAllWidgets }) {
-  
   console.log(listAllWidgets, "modal");
   let totalWidgets = listAllWidgets.length;
-  let justSayLength;
+  let justSayLength = 0;
+  let sumCount = 0;
 
-  // if (listAllWidgets.length > 0) {
-  //   return listAllWidgets.map((list) => {
-  //     if (list.type === "justSay") {
-  //       justSayLength = list.value.length;
-  //     }
-  //   })
-  // }
-  
+  listAllWidgets.map((list) => {
+    if (list.type === "justSay") {
+      justSayLength = justSayLength + list.value.length;
+    } else if (list.type === "counter") {
+      sumCount = sumCount + list.value;
+    }
 
-  console.log(justSayLength, "justSayLength");
-
-  
-  // if (listAllWidgets.length > 0) {
-  //   if (listAllWidgets.type === "justSay") {
-  //     justSayLength = {justSayLength} + listAllWidgets.value.length;
-  //   }
-  // }
-  // console.log(justSayLength, "justSayLength");
+    console.log(list, "list in setting");
+  });
 
   return (
     <div>
@@ -44,7 +35,7 @@ export default function ModalSetting({ listAllWidgets }) {
           </div>
           <div className="table-row">
             <div className="table-cell pr-4 font-semibold">Total count: </div>
-            <div className="table-cell">0</div>
+            <div className="table-cell">{sumCount}</div>
           </div>
           <div className="table-row">
             <div className="table-cell pr-4 font-semibold">Total time: </div>
