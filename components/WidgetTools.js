@@ -78,7 +78,6 @@ export default function WidgetTools() {
     });
 
     setListAllWidgets(newWidgets);
-    console.log("list : ", listAllWidgets);
   };
 
   const handleReset = () => {
@@ -89,8 +88,8 @@ export default function WidgetTools() {
       }
       newWidgets.push(list);
     });
-    console.log(newWidgets, "newWidgets");
     setListAllWidgets(newWidgets);
+    setModalActiveSetting(false);
   };
 
   const handleAdd = function (type, value) {
