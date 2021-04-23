@@ -20,6 +20,23 @@ import Counter from "./Counter";
 import Timer from "./Timer";
 
 export default function WidgetTools() {
+  let ct = "mx-auto text-4xl";
+  let menuSty = "w-1/3 pt-1.5 pl-1.5";
+  let cardSty = "md:flex md:flex-wrap md:-mr-4";
+  let iconSty = "inline-block text-xl relative -top-0.5";
+  let disabled = false;
+
+  let d = new Date();
+  let ye = new Intl.DateTimeFormat("en", { year: "2-digit" }).format(d);
+  let mo = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
+  let da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
+  let hms = new Intl.DateTimeFormat("en", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).format(d);
+  const realTime = `Added on ${mo} ${da}, ${ye}, ${hms}`;
+
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
   const [modalActiveJustSay, setModalActiveJustSay] = useState(false);
   const [modalActiveCounter, setModalActiveCounter] = useState(false);
@@ -44,30 +61,37 @@ export default function WidgetTools() {
     setModalActiveCounter(false);
     setModalActiveSetting(false);
   };
-  const handleClear = function () {
-    setListAllWidgets([]);
-  };
+
   const handleSetting = function () {
     setModalActiveSetting(true);
   };
+  const handleClear = function () {
+    setListAllWidgets([]);
+  };
 
-  let ct = "mx-auto text-4xl";
-  let menuSty = "w-1/3 pt-1.5 pl-1.5";
-  let cardSty = "md:flex md:flex-wrap md:-mr-4";
-  let iconSty = "inline-block text-xl relative -top-0.5";
-  let disabled = false;
+  const onUpdateValue = (id, value) => {
+    // console.log("id: ", id);
+    // console.log("value: ", value);
 
-  //   function realTime
-  let d = new Date();
-  let ye = new Intl.DateTimeFormat("en", { year: "2-digit" }).format(d);
-  let mo = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
-  let da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
-  let hms = new Intl.DateTimeFormat("en", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  }).format(d);
-  const realTime = `Added on ${mo} ${da}, ${ye}, ${hms}`;
+    let newWidgets = JSON.parse(JSON.stringify(listAllWidgets));
+    newWidgets.map((widget) => {
+      if (widget.id === id) widget.value = value;
+    });
+
+    setListAllWidgets(newWidgets);
+  };
+
+  const handleReset = () => {
+    let newWidgets = [];
+    listAllWidgets.map((list) => {
+      if (list.type === "counter") {
+        list.value = 0;
+      }
+      newWidgets.push(list);
+    });
+    console.log(newWidgets, "newWidgets");
+    setListAllWidgets(newWidgets);
+  };
 
   const handleAdd = function (type, value) {
     let id;
@@ -83,6 +107,7 @@ export default function WidgetTools() {
       type,
       value,
     };
+
     setListAllWidgets([...listAllWidgets, data]);
     handleCancel();
   };
@@ -100,7 +125,14 @@ export default function WidgetTools() {
             />
           );
         } else if (list.type === "counter") {
-          return <Counter key={list.id} list={list} onDelete={handleDelete} />;
+          return (
+            <Counter
+              key={list.id}
+              list={list}
+              onDelete={handleDelete}
+              onUpdateValue={onUpdateValue}
+            />
+          );
         } else if (list.type === "timer") {
           return <Timer key={list.id} list={list} onDelete={handleDelete} />;
         }
@@ -141,17 +173,16 @@ export default function WidgetTools() {
 
   const onEdit = (newId, newValue) => {
     let newListAllWidgets = [];
-    listAllWidgets.map((data)=>{
-      if(data.id === newId){
-        data.value = newValue
+    listAllWidgets.map((data) => {
+      if (data.id === newId) {
+        data.value = newValue;
       }
 
-      newListAllWidgets.push(data)
-    })
-   
+      newListAllWidgets.push(data);
+    });
+
     setListAllWidgets(newListAllWidgets);
   };
-
 
   return (
     <>
@@ -214,15 +245,45 @@ export default function WidgetTools() {
 
         {modalActiveSetting && (
           <Modal onCancel={handleCancel}>
-            <ModalSetting listAllWidgets={listAllWidgets} />
+            <ModalSetting listAllWidgets={listAllWidgets}>
+              <div className="p-5 border-1 bg-white rounded-2xl relative mb-4">
+                <h2 className="text-lg font-bold text-gray-400 mb-1.5">
+                  Reset Zone
+                </h2>
+                <div className="flex items-center">
+                  <select className="flex-1 mt-1 mr-1.5 py-1.5 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 text-sm">
+                    <option value="Counter">All counters</option>
+                    <option value="Timer">All timers</option>
+                  </select>
+
+                  <button
+                    onClick={handleReset}
+                    className="text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600"
+                  >
+                    {" "}
+                    Set zero
+                  </button>
+                </div>
+              </div>
+              <div className="p-5 border-1 bg-white rounded-2xl relative mb-4">
+                <h2 className="text-lg font-bold text-gray-400 mb-1.5">
+                  Delete Zone
+                </h2>
+                <button
+                  onClick={handleClear}
+                  className="text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600 w-full mb-1"
+                >
+                  {" "}
+                  Delete all widgets
+                </button>
+              </div>
+            </ModalSetting>
           </Modal>
         )}
       </div>
     </>
   );
 }
-
-
 
 //    Clear ALL Button
 //   let SettingBtn = (

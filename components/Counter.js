@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Card from '../components/Layouts/Card';
 import Button from '../components/Buttons/Button';
 
-export default function Counter({ list, onDelete }) {
-  const [count, setCount] = useState(list.value);
+export default function Counter({ list, onDelete, onUpdateValue }) {
+  const count = list.value;
 
   let countClass = 'text-5xl rounded-full w-10 text-center focus:outline-none';
   let countBlue = 'text-blue-500';
@@ -13,7 +13,7 @@ export default function Counter({ list, onDelete }) {
   let disabled = true;
 
   const handleClick = () => {
-    setCount(0);
+    onUpdateValue(list.id, 0)
   };
 
   if (count == 0) {
@@ -30,12 +30,11 @@ export default function Counter({ list, onDelete }) {
       </Button>
     );
     decrease = (
-      <button onClick={() => setCount(list.value - 1)} className={`${countClass} + ${countBlue}`}>
+      <button onClick={() => onUpdateValue(list.id, count - 1)} className={`${countClass} + ${countBlue}`}>
         -
       </button>
     );
   }
-  list.value = count;
 
   const handleDelete = function () {
     onDelete(list);
@@ -48,7 +47,7 @@ export default function Counter({ list, onDelete }) {
           {decrease}
           <div className='text-6xl mx-7'>{count}</div>
           <button
-            onClick={() => setCount(list.value + 1)}
+            onClick={() => onUpdateValue(list.id, count + 1)}
             className={`${countClass} + ${countBlue}`}
           >
             +

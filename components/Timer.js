@@ -4,7 +4,7 @@ import Button from "../components/Buttons/Button";
 
 export default function Timer({ list, onDelete }) {
   let disabled = true;
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(0); //onUpdate
   const [timerOn, setTimerOn] = useState(false);
 
   useEffect(() => {

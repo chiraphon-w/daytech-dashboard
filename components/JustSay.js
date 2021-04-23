@@ -18,8 +18,8 @@ export default function JustSay({ list, onDelete, onEdit }) {
     setModalActiveEditJustSay(true);
   };
 
-  const onEditSubmit = (id, content) => {
-    onEdit(id, content);
+  const onEditSubmit = (id, value) => {
+    onEdit(id, value);
     setModalActiveEditJustSay(false);
   }
 
