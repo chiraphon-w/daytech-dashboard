@@ -18,6 +18,7 @@ import AddCounter from "./AddWidgets/AddCounter";
 import JustSay from "./JustSay";
 import Counter from "./Counter";
 import Timer from "./Timer";
+import Card from "./Layouts/Card";
 
 export default function WidgetTools() {
   let ct = "mx-auto text-4xl";
@@ -43,6 +44,7 @@ export default function WidgetTools() {
   const [modalActiveSetting, setModalActiveSetting] = useState(false);
 
   const [listAllWidgets, setListAllWidgets] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
 
   const handleClick = function () {
     setModalActiveMenu(true);
@@ -70,21 +72,19 @@ export default function WidgetTools() {
   };
 
   const onUpdateValue = (id, value) => {
-    // console.log("id: ", id);
-    // console.log("value: ", value);
-
-    let newWidgets = JSON.parse(JSON.stringify(listAllWidgets));
+    let newWidgets = [...listAllWidgets];
     newWidgets.map((widget) => {
       if (widget.id === id) widget.value = value;
     });
 
     setListAllWidgets(newWidgets);
+    console.log("list : ", listAllWidgets);
   };
 
   const handleReset = () => {
     let newWidgets = [];
     listAllWidgets.map((list) => {
-      if (list.type === "counter") {
+      if (selectedOption === list.type) {
         list.value = 0;
       }
       newWidgets.push(list);
@@ -94,15 +94,9 @@ export default function WidgetTools() {
   };
 
   const handleAdd = function (type, value) {
-    let id;
-    if (listAllWidgets.length == 0) {
-      id = 1;
-    } else {
-      const lastArray = listAllWidgets.slice(-1).pop(); // .slice(-1).pop() เลือก array ตัวสุดท้ายมาให้
-      id = lastArray.id + 1;
-    }
+    const id = Math.floor(Math.random() * 10000) + 1;
     const data = {
-      id: id,
+      id, //id: id
       date: realTime,
       type,
       value,
@@ -112,7 +106,7 @@ export default function WidgetTools() {
     handleCancel();
   };
 
-  const addWidgetPanal = function () {
+  const addWidgetPanal = () => {
     if (listAllWidgets.length > 0) {
       return listAllWidgets.map((list) => {
         if (list.type === "justSay") {
@@ -134,30 +128,34 @@ export default function WidgetTools() {
             />
           );
         } else if (list.type === "timer") {
-          return <Timer key={list.id} list={list} onDelete={handleDelete} />;
+          return (
+            <Timer
+              key={list.id}
+              list={list}
+              onDelete={handleDelete}
+              onUpdateValue={onUpdateValue}
+            />
+          );
         }
       });
     } else {
       return (
         <>
-          <div className="md:inner md:w-1/2 pb-4 md:pr-4">
-            <div className="p-5 border-1 bg-white rounded-2xl relative undefined">
-              <h2 className="text-lg font-bold text-gray-400 mb-1.5" />
-              <div className="text-center text-gray-400 my-8 font-light">
-                <p className="text-4xl mb-2">No widgets at all</p>
-                <p>
-                  Click{" "}
-                  <button
-                    onClick={handleClick}
-                    className="font-normal text-blue-400 focus:outline-none"
-                  >
-                    HERE{" "}
-                  </button>{" "}
-                  to add a new one
-                </p>
-              </div>
+          <Card>
+            <div className="text-center text-gray-400 my-8 font-light">
+              <p className="text-4xl mb-2">No widgets at all</p>
+              <p>
+                Click{" "}
+                <button
+                  onClick={handleClick}
+                  className="font-normal text-blue-400 focus:outline-none"
+                >
+                  HERE{" "}
+                </button>{" "}
+                to add a new one
+              </p>
             </div>
-          </div>
+          </Card>
         </>
       );
     }
@@ -189,7 +187,7 @@ export default function WidgetTools() {
       <h2 className="text-xl undefined">Widgets</h2>
       <div className="pt-3">
         <div className="mb-4 space-x-1">
-          <Button doClick={handleClick} disabled={disabled}>
+          <Button doClick={() => handleClick()} disabled={disabled}>
             <RiAddCircleLine className={iconSty} /> Add Widget
           </Button>
           <Button
@@ -219,7 +217,7 @@ export default function WidgetTools() {
               </div>
               <div
                 onClick={() => {
-                  handleAdd("timer", ""); // ส่ง type="timer", value=""
+                  handleAdd("timer", 0); // ส่ง type="timer", value=""
                 }}
                 className={menuSty}
               >
@@ -251,11 +249,14 @@ export default function WidgetTools() {
                   Reset Zone
                 </h2>
                 <div className="flex items-center">
-                  <select className="flex-1 mt-1 mr-1.5 py-1.5 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 text-sm">
-                    <option value="Counter">All counters</option>
-                    <option value="Timer">All timers</option>
+                  <select
+                    className="flex-1 mt-1 mr-1.5 py-1.5 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 text-sm"
+                    value={selectedOption}
+                    onChange={(e) => setSelectedOption(e.target.value)}
+                  >
+                    <option value="counter">All counters</option>
+                    <option value="timer">All timers</option>
                   </select>
-
                   <button
                     onClick={handleReset}
                     className="text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600"
@@ -284,24 +285,3 @@ export default function WidgetTools() {
     </>
   );
 }
-
-//    Clear ALL Button
-//   let SettingBtn = (
-//     <Button doClick={handleSetting} checkColor="darkGray" disabled={!disabled}>
-//       <RiSettings3Line className={iconSty} /> Settings
-//     </Button>
-//   );
-
-//   let clearBtn = (
-//     <Button doClick={handleClear} disabled={!disabled}>
-//       <BiBomb className={iconSty} /> Clear all
-//     </Button>
-//   );
-
-//   if (listAllWidgets.length > 0) {
-//     clearBtn = (
-//       <Button doClick={handleClear} disabled={!disabled}>
-//         <BiBomb className={iconSty} /> Clear all
-//       </Button>
-//     );
-//   }

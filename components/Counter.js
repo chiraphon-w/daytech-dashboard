@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from '../components/Layouts/Card';
 import Button from '../components/Buttons/Button';
+import { IoClose } from 'react-icons/io5';
 
 export default function Counter({ list, onDelete, onUpdateValue }) {
   const count = list.value;
@@ -41,7 +42,7 @@ export default function Counter({ list, onDelete, onUpdateValue }) {
   }
 
   return (
-    <Card title='Counter' key={list.id} onDelete={handleDelete}>
+    <Card title='Counter' closeBtn={<IoClose />} key={list.id} onDelete={handleDelete}>
       <div className='text-center'>
         <div className='flex items-center justify-center mt-4 mb-6'>
           {decrease}
@@ -61,4 +62,3 @@ export default function Counter({ list, onDelete, onUpdateValue }) {
     </Card>
   );
 }
-// }

@@ -3,6 +3,7 @@ import Card from "../components/Layouts/Card";
 import { MdEdit } from "react-icons/md";
 import EditJustSay from "./AddWidgets/EditJustSay";
 import Modal from "./Layouts/Modal";
+import { IoClose } from "react-icons/io5";
 
 export default function JustSay({ list, onDelete, onEdit }) {
   const [modalActiveEditJustSay, setModalActiveEditJustSay] = useState(false);
@@ -32,6 +33,7 @@ export default function JustSay({ list, onDelete, onEdit }) {
       )}
       <Card
         title="JustSay"
+        closeBtn={<IoClose />}
         editBtn={<MdEdit />}
         key={list.id}
         onDelete={handleDelete}

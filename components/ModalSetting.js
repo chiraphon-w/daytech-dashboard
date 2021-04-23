@@ -5,15 +5,16 @@ export default function ModalSetting({ listAllWidgets, children }) {
   let totalWidgets = listAllWidgets.length;
   let justSayLength = 0;
   let sumCount = 0;
+  let sumTime = 0;
 
   listAllWidgets.map((list) => {
     if (list.type === "justSay") {
       justSayLength = justSayLength + list.value.length;
     } else if (list.type === "counter") {
       sumCount = sumCount + list.value;
+    } else if (list.type === "timer") {
+      sumTime = sumTime + list.value;
     }
-
-    // console.log(list, "list in setting");
   });
 
   return (
@@ -38,7 +39,10 @@ export default function ModalSetting({ listAllWidgets, children }) {
           </div>
           <div className="table-row">
             <div className="table-cell pr-4 font-semibold">Total time: </div>
-            <div className="table-cell">00:00</div>
+            <div className="table-cell">
+              <span>{`0${Math.floor((sumTime / 60000) % 60)}`.slice(-2)}:</span>
+              <span>{`0${Math.floor((sumTime / 1000) % 60)}`.slice(-2)}</span>
+            </div>
           </div>
         </div>
       </div>

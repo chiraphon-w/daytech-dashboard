@@ -5,6 +5,7 @@ export default function Card({
   title,
   children,
   onDelete,
+  closeBtn,
   editBtn,
   onEdit,
 }) {
@@ -30,7 +31,7 @@ export default function Card({
             onClick={handleClick}
             className="text-lg text-gray-600 focus:outline-none undefined"
           >
-            <IoClose />
+            {closeBtn}
           </button>
         </div>
         {children}
