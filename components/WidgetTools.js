@@ -83,7 +83,13 @@ export default function WidgetTools() {
   const handleReset = () => {
     let newWidgets = [];
     listAllWidgets.map((list) => {
-      if (selectedOption === list.type) {
+      console.log("selectedOption: ", selectedOption, "list.type: ", list.type);
+      if (selectedOption==="") {
+        console.log(selectedOption);
+        setSelectedOption("counter");
+        list.value = 0;
+      }
+      else if (selectedOption === list.type) {
         list.value = 0;
       }
       newWidgets.push(list);
