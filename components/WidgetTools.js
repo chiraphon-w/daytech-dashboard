@@ -19,12 +19,14 @@ import JustSay from "./JustSay";
 import Counter from "./Counter";
 import Timer from "./Timer";
 import Card from "./Layouts/Card";
+import { HeadSettings } from "./Layouts/Settings";
 
 export default function WidgetTools() {
   let ct = "mx-auto text-4xl";
   let menuSty = "w-1/3 pt-1.5 pl-1.5";
   let cardSty = "md:flex md:flex-wrap md:-mr-4";
   let iconSty = "inline-block text-xl relative -top-0.5";
+  let settingsBtn = "text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600";
   let disabled = false;
 
   let d = new Date();
@@ -69,6 +71,7 @@ export default function WidgetTools() {
   };
   const handleClear = function () {
     setListAllWidgets([]);
+    setModalActiveSetting(false);
   };
 
   const onUpdateValue = (id, value) => {
@@ -84,12 +87,10 @@ export default function WidgetTools() {
     let newWidgets = [];
     listAllWidgets.map((list) => {
       console.log("selectedOption: ", selectedOption, "list.type: ", list.type);
-      if (selectedOption==="") {
-        console.log(selectedOption);
+      if (selectedOption === "" && list.type === "counter") {
         setSelectedOption("counter");
         list.value = 0;
-      }
-      else if (selectedOption === list.type) {
+      } else if (selectedOption === list.type) {
         list.value = 0;
       }
       newWidgets.push(list);
@@ -209,7 +210,7 @@ export default function WidgetTools() {
         {modalActiveMenu && (
           <Modal onCancel={handleCancel}>
             <h2 className="text-xl undefined">Add widget</h2>
-            <div className=" flex flex-wrap text-center mt-1.5 -ml-1.5">
+            <div className="flex flex-wrap text-center mt-1.5 -ml-1.5">
               <div onClick={handleJustSay} className={menuSty}>
                 <WidgetsCard title="JustSay">
                   <AiOutlineMessage className={ct} />
@@ -249,10 +250,7 @@ export default function WidgetTools() {
         {modalActiveSetting && (
           <Modal onCancel={handleCancel}>
             <ModalSetting listAllWidgets={listAllWidgets}>
-              <div className="p-5 border-1 bg-white rounded-2xl relative mb-4">
-                <h2 className="text-lg font-bold text-gray-400 mb-1.5">
-                  Reset Zone
-                </h2>
+              <HeadSettings title="Reset Zone">
                 <div className="flex items-center">
                   <select
                     className="flex-1 mt-1 mr-1.5 py-1.5 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 text-sm"
@@ -264,25 +262,22 @@ export default function WidgetTools() {
                   </select>
                   <button
                     onClick={handleReset}
-                    className="text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600"
+                    className={settingsBtn}
                   >
                     {" "}
                     Set zero
                   </button>
                 </div>
-              </div>
-              <div className="p-5 border-1 bg-white rounded-2xl relative mb-4">
-                <h2 className="text-lg font-bold text-gray-400 mb-1.5">
-                  Delete Zone
-                </h2>
+              </HeadSettings>
+              <HeadSettings title="Delete Zone">
                 <button
-                  onClick={handleClear}
-                  className="text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600 w-full mb-1"
+                  onClick={handleClear} 
+                  className={`${settingsBtn} w-full mb-1`}
                 >
                   {" "}
                   Delete all widgets
                 </button>
-              </div>
+              </HeadSettings>
             </ModalSetting>
           </Modal>
         )}

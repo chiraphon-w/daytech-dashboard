@@ -11,10 +11,7 @@ const Button = ({ disabled, children, doClick = () => {}, checkColor }) => {
       "bg-gray-500 hover:bg-gray-600": checkColor === "darkGray",
     });
   }
-  
-  // function handleClickAdd() {
-  //     doClick()
-  // }
+
   return (
     <button className={getButtonClass()} onClick={doClick}>
       {children}

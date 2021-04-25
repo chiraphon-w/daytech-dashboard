@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from '../Buttons/Button';
+import AddWidgetForm from '../Layouts/AddWidgetForm';
 
 export default function AddCounter({
   onAdd,
@@ -13,29 +13,11 @@ export default function AddCounter({
     } else if (e.target.title.value === '') {
       setCheckError('Please provide some value.');
     } else {
-      onAdd('counter', Number(e.target.title.value)); // เราใช้เพียงคำสั่งนี้ ส่งข้อมูล type, value กลับไปยัง handleAdd ใน WidgetTools
+      onAdd('counter', Number(e.target.title.value)); //ส่งข้อมูล type, value กลับไปยัง handleAdd ใน WidgetTools
     }
   };
 
   return (
-    <div>
-      <h2 className='text-xl mb-2'>Add Counter</h2>
-      <form onSubmit={onSubmit} className='flex'>
-        <div className='flex-1 mr-1'>
-          <input
-            type='number'
-            name='title'
-            pattern='[0-9]'
-            placeholder='Enter the initial value'
-            className='w-full px-2.5 py-1 focus:outline-none rounded-md'
-            // min="-999999"
-            // max="999999"
-          />
-        </div>
-        <Button>Add</Button>
-      </form>
-
-      <div className='text-red-600 text-xs mt-1'>{checkError}</div>
-    </div>
+    <AddWidgetForm title="Add Counter" onSubmit={onSubmit} type="number" pattern='[0-9]' checkError={checkError}/>
   );
 }
