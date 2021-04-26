@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Card from "../components/Layouts/Card";
 import { MdEdit } from "react-icons/md";
-import EditJustSay from "./AddWidgets/EditJustSay";
 import Modal from "./Layouts/Modal";
 import { IoClose } from "react-icons/io5";
+import EditJustS from "./AddWidgets/EditJustS";
 
-export default function JustShout({ list, onDelete, onEdit }) {
+export default function JustShout({ list, onDelete, onEditJustShout }) {
   const [modalActiveEditJustShout, setModalActiveEditJustShout] = useState(false);
 
   const handleCancel = function () {
@@ -20,7 +20,7 @@ export default function JustShout({ list, onDelete, onEdit }) {
   };
 
   const onEditSubmit = (id, value) => {
-    onEdit(id, value);
+    onEditJustShout(id, value);
     setModalActiveEditJustShout(false);
   }
 
@@ -28,7 +28,7 @@ export default function JustShout({ list, onDelete, onEdit }) {
     <>
       {modalActiveEditJustShout && (
         <Modal onCancel={handleCancel}>
-          <EditJustSay title="Edit JustShout" onEditSubmit={onEditSubmit} list={list} />
+          <EditJustS title="Edit JustShout"  onEditSubmit={onEditSubmit} list={list} />
         </Modal>
       )}
       <Card

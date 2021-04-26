@@ -23,6 +23,10 @@ import Card from "./Layouts/Card";
 import { HeadSettings } from "./Layouts/Settings";
 import AddJustShout from "./AddWidgets/AddJustShout";
 import JustShout from "./JustShout";
+import { data } from "autoprefixer";
+import { useEffect } from "react";
+import AddWidgetForm from "./Layouts/AddWidgetForm";
+import EditJustS from "./AddWidgets/EditJustS";
 
 export default function WidgetTools() {
   let ct = "mx-auto text-4xl";
@@ -52,6 +56,7 @@ export default function WidgetTools() {
 
   const [listAllWidgets, setListAllWidgets] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
+  const [defaultValueShout, setDefaultValueShout] = useState([]);
 
   const handleClick = function () {
     setModalActiveMenu(true);
@@ -109,15 +114,44 @@ export default function WidgetTools() {
     setModalActiveSetting(false);
   };
 
+  const handleDelete = function (list) {
+    if (listAllWidgets.length > 0) {
+      setListAllWidgets(
+        listAllWidgets.filter((widget) => widget.id !== list.id)
+      );
+    }
+  };
+
+  const onEdit = (newId, newValue) => {
+    let newListAllWidgets = [];
+    listAllWidgets.map((data) => {
+      if (data.id === newId) {
+        data.value = newValue;
+      }
+
+      newListAllWidgets.push(data);
+    });
+
+    setListAllWidgets(newListAllWidgets);
+  };
+
+  const onEditJustShout = (newValue) => {
+    console.log(newValue, "onEditJustShout");
+    let newListAllWidgets = [];
+    listAllWidgets.map((data) => {
+      if (data.type === "justShout") {
+        data.value = newValue;
+        setDefaultValueShout(newValue);
+      }
+
+      newListAllWidgets.push(data);
+    });
+
+    setListAllWidgets(newListAllWidgets);
+    setModalActiveSetting(false);
+  };
+
   const handleAdd = function (type, value) {
-    // if(type === "justShout"){
-    //   const data = {
-    //     id, //id: id
-    //     date: realTime,
-    //     type,
-    //     value,
-    //   };
-    // }
     const id = Math.floor(Math.random() * 10000) + 1;
     const data = {
       id, //id: id
@@ -125,8 +159,17 @@ export default function WidgetTools() {
       type,
       value,
     };
+    if (type === "justShout") {
+      setDefaultValueShout(value);
+      listAllWidgets.map((widget) => {
+        if (widget.type === "justShout") {
+          widget.value = value;
+        }
+      });
+    }
 
     setListAllWidgets([...listAllWidgets, data]);
+    console.log(listAllWidgets, "handleAdd");
     handleCancel();
   };
 
@@ -143,13 +186,12 @@ export default function WidgetTools() {
             />
           );
         } else if (list.type === "justShout") {
-          console.log("teset");
           return (
             <JustShout
               key={list.id}
               list={list}
               onDelete={handleDelete}
-              onEdit={onEdit}
+              onEditJustShout={onEditJustShout}
             />
           );
         } else if (list.type === "counter") {
@@ -193,27 +235,6 @@ export default function WidgetTools() {
         </>
       );
     }
-  };
-
-  const handleDelete = function (list) {
-    if (listAllWidgets.length > 0) {
-      setListAllWidgets(
-        listAllWidgets.filter((widget) => widget.id !== list.id)
-      );
-    }
-  };
-
-  const onEdit = (newId, newValue) => {
-    let newListAllWidgets = [];
-    listAllWidgets.map((data) => {
-      if (data.id === newId) {
-        data.value = newValue;
-      }
-
-      newListAllWidgets.push(data);
-    });
-
-    setListAllWidgets(newListAllWidgets);
   };
 
   return (
@@ -275,7 +296,10 @@ export default function WidgetTools() {
         )}
         {modalActiveJustShout && (
           <Modal onCancel={handleCancel}>
-            <AddJustShout onAdd={handleAdd} />
+            <AddJustShout
+              onAdd={handleAdd}
+              defaultValueShout={defaultValueShout}
+            />
           </Modal>
         )}
         {modalActiveCounter && (
@@ -286,27 +310,7 @@ export default function WidgetTools() {
 
         {modalActiveSetting && (
           <Modal onCancel={handleCancel}>
-            <ModalSetting listAllWidgets={listAllWidgets}>
-              <HeadSettings title="JustShout text">
-                <fieldset>
-                  <form className="flex">
-                    <div className="flex-1 mr-1">
-                      <input
-                        type="text"
-                        className="w-full px-2.5 py-1 border focus:outline-none rounded-md"
-                        placeholder="Enter text"
-                        defaultValue={123}
-                      />
-                    </div>
-                    <div>
-                      <button className="text-white focus:outline-none px-4 py-1 rounded-md bg-blue-500 hover:bg-blue-600">
-                        {" "}
-                        Edit
-                      </button>
-                    </div>
-                  </form>
-                </fieldset>
-              </HeadSettings>
+            <ModalSetting listAllWidgets={listAllWidgets} defaultValueShout={defaultValueShout} onEditJustShout={onEditJustShout}>
               <HeadSettings title="Reset Zone">
                 <div className="flex items-center">
                   <select

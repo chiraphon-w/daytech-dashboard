@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { HeadSettings, TableSettings } from "./Layouts/Settings";
 
-export default function ModalSetting({ listAllWidgets, children }) {
+export default function ModalSetting({
+  listAllWidgets,
+  children,
+  defaultValueShout,
+  onEditJustShout,
+}) {
   let totalWidgets = listAllWidgets.length;
   let jsLength = 0;
   let sumCount = 0;
   let sumTime = 0;
+  const [checkError, setCheckError] = useState("");
 
   listAllWidgets.map((list) => {
     if (list.type === "justSay") {
@@ -22,6 +28,17 @@ export default function ModalSetting({ listAllWidgets, children }) {
       <span>{`0${Math.floor((sumTime / 1000) % 60)}`.slice(-2)}</span>
     </>
   );
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (e.target.title.value.length < 3) {
+      setCheckError("Please enter at least 3 characters.");
+    } else {
+      console.log(e.target.title.value.trim(), "ModalSetting");
+      onEditJustShout(e.target.title.value.trim());
+    }
+  };
+
   return (
     <div>
       <h2 className="text-xl mb-4">Settings</h2>
@@ -32,6 +49,28 @@ export default function ModalSetting({ listAllWidgets, children }) {
           <TableSettings title="Total count">{sumCount}</TableSettings>
           <TableSettings title="Total time">{totalTime}</TableSettings>
         </div>
+      </HeadSettings>
+      <HeadSettings title="JustShout text">
+        <fieldset>
+          <form onSubmit={onSubmit} className="flex">
+            <div className="flex-1 mr-1">
+              <input
+                name="title"
+                type="text"
+                className="w-full px-2.5 py-1 border focus:outline-none rounded-md"
+                placeholder="Enter text"
+                defaultValue={defaultValueShout}
+              />
+            </div>
+            <div>
+              <button className="text-white focus:outline-none px-4 py-1 rounded-md bg-blue-500 hover:bg-blue-600">
+                {" "}
+                Edit
+              </button>
+            </div>
+          </form>
+          <div class="text-red-600 text-xs mt-1">{checkError}</div>
+        </fieldset>
       </HeadSettings>
       {children}
     </div>

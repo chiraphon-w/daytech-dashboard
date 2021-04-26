@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Card from "../components/Layouts/Card";
 import { MdEdit } from "react-icons/md";
-import EditJustSay from "./AddWidgets/EditJustSay";
 import Modal from "./Layouts/Modal";
 import { IoClose } from "react-icons/io5";
+import EditJustS from "./AddWidgets/EditJustS";
 
 export default function JustSay({ list, onDelete, onEdit }) {
   const [modalActiveEditJustSay, setModalActiveEditJustSay] = useState(false);
@@ -28,7 +28,7 @@ export default function JustSay({ list, onDelete, onEdit }) {
     <>
       {modalActiveEditJustSay && (
         <Modal onCancel={handleCancel}>
-          <EditJustSay title="Edit JustSay" onEditSubmit={onEditSubmit} list={list} />
+          <EditJustS title="Edit JustSay" onEditSubmit={onEditSubmit} list={list} />
         </Modal>
       )}
       <Card
