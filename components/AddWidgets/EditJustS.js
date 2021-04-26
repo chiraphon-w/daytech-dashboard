@@ -3,6 +3,10 @@ import AddWidgetForm from "../Layouts/AddWidgetForm";
 
 export default function EditJustS({ onEditSubmit, list, title }) {
   const [checkError, setCheckError] = useState("");
+  let dfValue = list.value;
+  if (list.type === "weather") {
+    dfValue = list.value.name;
+  }
   const onSubmit = (e) => {
     e.preventDefault();
     if (e.target.title.value.length < 3) {
@@ -13,6 +17,9 @@ export default function EditJustS({ onEditSubmit, list, title }) {
       } else if (list.type === "justShout") {
         onEditSubmit(e.target.title.value.trim());
       }
+      else if (list.type === "weather") {
+        onEditSubmit(e.target.title.value.trim());
+      }
     }
   };
 
@@ -21,7 +28,7 @@ export default function EditJustS({ onEditSubmit, list, title }) {
       title={title}
       onSubmit={onSubmit}
       type="text"
-      defaultValue={list.value}
+      defaultValue={dfValue}
       checkError={checkError}
     />
   );

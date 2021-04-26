@@ -23,7 +23,8 @@ import Card from "./Layouts/Card";
 import { HeadSettings } from "./Layouts/Settings";
 import AddJustShout from "./AddWidgets/AddJustShout";
 import JustShout from "./JustShout";
-
+import AddWeather from "./AddWidgets/AddWeather";
+import Weather from "./Weather";
 
 export default function WidgetTools() {
   let ct = "mx-auto text-4xl";
@@ -43,12 +44,13 @@ export default function WidgetTools() {
     minute: "2-digit",
     second: "2-digit",
   }).format(d);
-  const realTime = `Added on ${mo} ${da}, ${ye}, ${hms}`;
+  const realTime = `Last updated on ${mo} ${da}, ${ye}, ${hms}`;
 
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
   const [modalActiveJustSay, setModalActiveJustSay] = useState(false);
   const [modalActiveJustShout, setModalActiveJustShout] = useState(false);
   const [modalActiveCounter, setModalActiveCounter] = useState(false);
+  const [modalActiveWeather, setModalActiveWeather] = useState(false);
   const [modalActiveSetting, setModalActiveSetting] = useState(false);
 
   const [listAllWidgets, setListAllWidgets] = useState([]);
@@ -70,11 +72,16 @@ export default function WidgetTools() {
     setModalActiveCounter(true);
     setModalActiveMenu(false);
   };
+  const handleWeather = function () {
+    setModalActiveWeather(true);
+    setModalActiveMenu(false);
+  };
   const handleCancel = function () {
     setModalActiveMenu(false);
     setModalActiveJustSay(false);
     setModalActiveJustShout(false);
     setModalActiveCounter(false);
+    setModalActiveWeather(false);
     setModalActiveSetting(false);
   };
 
@@ -122,6 +129,7 @@ export default function WidgetTools() {
 
   const onEdit = (newId, newValue) => {
     let newListAllWidgets = [];
+    console.log("onEdit ", newValue);
     listAllWidgets.map((data) => {
       if (data.id === newId) {
         data.value = newValue;
@@ -207,6 +215,15 @@ export default function WidgetTools() {
               onUpdateValue={onUpdateValue}
             />
           );
+        } else if (list.type === "weather" || list.type === "weatherNF") {
+          return (
+            <Weather
+              key={list.id}
+              list={list}
+              onDelete={handleDelete}
+              onEdit={onEdit}
+            />
+          );
         }
       });
     } else {
@@ -280,7 +297,7 @@ export default function WidgetTools() {
                   <IoTimerOutline className={ct} />
                 </WidgetsCard>
               </div>
-              <div onClick={handleCounter} className={menuSty}>
+              <div onClick={handleWeather} className={menuSty}>
                 <WidgetsCard title="Weather">
                   <TiWeatherPartlySunny className={ct} />
                 </WidgetsCard>
@@ -307,7 +324,14 @@ export default function WidgetTools() {
             <AddCounter onAdd={handleAdd} />
           </Modal>
         )}
-
+        {modalActiveWeather && (
+          <Modal onCancel={handleCancel}>
+            <AddWeather
+              onAdd={handleAdd}
+              defaultValueShout={defaultValueShout}
+            />
+          </Modal>
+        )}
         {modalActiveSetting && (
           <Modal onCancel={handleCancel}>
             <ModalSetting

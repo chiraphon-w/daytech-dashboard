@@ -18,6 +18,7 @@ export default function ModalSetting({
   let settingsBtn =
     "text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600";
 
+  let cityName = "N/A";
   let editJustShout = (
     <HeadSettings title="JustShout text">
       <fieldset disabled>
@@ -78,6 +79,9 @@ export default function ModalSetting({
     } else if (list.type === "timer") {
       sumTime = sumTime + list.value;
     }
+    else if (list.type === "weather") {
+       cityName = list.value.name;
+    }
   });
   let totalTime = (
     <>
@@ -95,6 +99,7 @@ export default function ModalSetting({
           <TableSettings title="Total Just length">{jsLength}</TableSettings>
           <TableSettings title="Total count">{sumCount}</TableSettings>
           <TableSettings title="Total time">{totalTime}</TableSettings>
+          <TableSettings title="Coldest cities">{cityName}</TableSettings>
         </div>
       </HeadSettings>
       {editJustShout}
