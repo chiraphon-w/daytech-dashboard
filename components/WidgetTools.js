@@ -310,7 +310,7 @@ export default function WidgetTools() {
 
         {modalActiveSetting && (
           <Modal onCancel={handleCancel}>
-            <ModalSetting listAllWidgets={listAllWidgets} defaultValueShout={defaultValueShout} onEditJustShout={onEditJustShout}>
+            <ModalSetting listAllWidgets={listAllWidgets} defaultValueShout={defaultValueShout} onEditJustShout={onEditJustShout} handleClear={handleClear}>
               <HeadSettings title="Reset Zone">
                 <div className="flex items-center">
                   <select
@@ -326,15 +326,6 @@ export default function WidgetTools() {
                     Set zero
                   </button>
                 </div>
-              </HeadSettings>
-              <HeadSettings title="Delete Zone">
-                <button
-                  onClick={handleClear}
-                  className={`${settingsBtn} w-full mb-1`}
-                >
-                  {" "}
-                  Delete all widgets
-                </button>
               </HeadSettings>
             </ModalSetting>
           </Modal>

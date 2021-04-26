@@ -8,8 +8,11 @@ export default function EditJustS({ onEditSubmit, list, title }) {
     if (e.target.title.value.length < 3) {
       setCheckError("Please enter at least 3 characters.");
     } else {
-      // console.log(list, "in EditJustS");
-      onEditSubmit(e.target.title.value.trim());
+      if (list.type === "justSay") {
+        onEditSubmit(list.id, e.target.title.value.trim());
+      } else if (list.type === "justShout") {
+        onEditSubmit(e.target.title.value.trim());
+      }
     }
   };
 

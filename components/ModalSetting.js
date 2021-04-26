@@ -6,15 +6,18 @@ export default function ModalSetting({
   children,
   defaultValueShout,
   onEditJustShout,
+  handleClear,
 }) {
   let totalWidgets = listAllWidgets.length;
   let jsLength = 0;
   let sumCount = 0;
   let sumTime = 0;
+  let settingsBtn =
+    "text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600";
   const [checkError, setCheckError] = useState("");
 
   listAllWidgets.map((list) => {
-    if (list.type === "justSay") {
+    if (list.type === "justSay" || list.type === "justShout") {
       jsLength = jsLength + list.value.length;
     } else if (list.type === "counter") {
       sumCount = sumCount + list.value;
@@ -45,7 +48,7 @@ export default function ModalSetting({
       <HeadSettings title="Statistics">
         <div className="table">
           <TableSettings title="Total widgets">{totalWidgets}</TableSettings>
-          <TableSettings title="Total JustSay length">{jsLength}</TableSettings>
+          <TableSettings title="Total Just length">{jsLength}</TableSettings>
           <TableSettings title="Total count">{sumCount}</TableSettings>
           <TableSettings title="Total time">{totalTime}</TableSettings>
         </div>
@@ -69,8 +72,14 @@ export default function ModalSetting({
               </button>
             </div>
           </form>
-          <div class="text-red-600 text-xs mt-1">{checkError}</div>
+          <div className="text-red-600 text-xs mt-1">{checkError}</div>
         </fieldset>
+      </HeadSettings>
+      <HeadSettings title="Delete Zone">
+        <button onClick={handleClear} className={`${settingsBtn} w-full mb-1`}>
+          {" "}
+          Delete all widgets
+        </button>
       </HeadSettings>
       {children}
     </div>
