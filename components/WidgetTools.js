@@ -8,6 +8,7 @@ import {
 } from "react-icons/ri";
 import { BiBomb } from "react-icons/bi";
 import { AiOutlineMessage } from "react-icons/ai";
+import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { IoTimerOutline } from "react-icons/io5";
 
 import WidgetsCard from "./Layouts/WidgetsCard";
@@ -20,13 +21,16 @@ import Counter from "./Counter";
 import Timer from "./Timer";
 import Card from "./Layouts/Card";
 import { HeadSettings } from "./Layouts/Settings";
+import AddJustShout from "./AddWidgets/AddJustShout";
+import JustShout from "./JustShout";
 
 export default function WidgetTools() {
   let ct = "mx-auto text-4xl";
   let menuSty = "w-1/3 pt-1.5 pl-1.5";
   let cardSty = "md:flex md:flex-wrap md:-mr-4";
   let iconSty = "inline-block text-xl relative -top-0.5";
-  let settingsBtn = "text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600";
+  let settingsBtn =
+    "text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600";
   let disabled = false;
 
   let d = new Date();
@@ -42,6 +46,7 @@ export default function WidgetTools() {
 
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
   const [modalActiveJustSay, setModalActiveJustSay] = useState(false);
+  const [modalActiveJustShout, setModalActiveJustShout] = useState(false);
   const [modalActiveCounter, setModalActiveCounter] = useState(false);
   const [modalActiveSetting, setModalActiveSetting] = useState(false);
 
@@ -55,6 +60,10 @@ export default function WidgetTools() {
     setModalActiveJustSay(true);
     setModalActiveMenu(false);
   };
+  const handleJustShout = function () {
+    setModalActiveJustShout(true);
+    setModalActiveMenu(false);
+  };
   const handleCounter = function () {
     setModalActiveCounter(true);
     setModalActiveMenu(false);
@@ -62,6 +71,7 @@ export default function WidgetTools() {
   const handleCancel = function () {
     setModalActiveMenu(false);
     setModalActiveJustSay(false);
+    setModalActiveJustShout(false);
     setModalActiveCounter(false);
     setModalActiveSetting(false);
   };
@@ -100,6 +110,14 @@ export default function WidgetTools() {
   };
 
   const handleAdd = function (type, value) {
+    // if(type === "justShout"){
+    //   const data = {
+    //     id, //id: id
+    //     date: realTime,
+    //     type,
+    //     value,
+    //   };
+    // }
     const id = Math.floor(Math.random() * 10000) + 1;
     const data = {
       id, //id: id
@@ -118,6 +136,16 @@ export default function WidgetTools() {
         if (list.type === "justSay") {
           return (
             <JustSay
+              key={list.id}
+              list={list}
+              onDelete={handleDelete}
+              onEdit={onEdit}
+            />
+          );
+        } else if (list.type === "justShout") {
+          console.log("teset");
+          return (
+            <JustShout
               key={list.id}
               list={list}
               onDelete={handleDelete}
@@ -216,6 +244,11 @@ export default function WidgetTools() {
                   <AiOutlineMessage className={ct} />
                 </WidgetsCard>
               </div>
+              <div onClick={handleJustShout} className={menuSty}>
+                <WidgetsCard title="JustShout">
+                  <HiOutlineSpeakerphone className={ct} />
+                </WidgetsCard>
+              </div>
               <div onClick={handleCounter} className={menuSty}>
                 <WidgetsCard title="Counter">
                   <RiIncreaseDecreaseLine className={ct} />
@@ -240,7 +273,11 @@ export default function WidgetTools() {
             <AddJustSay onAdd={handleAdd} />
           </Modal>
         )}
-
+        {modalActiveJustShout && (
+          <Modal onCancel={handleCancel}>
+            <AddJustShout onAdd={handleAdd} />
+          </Modal>
+        )}
         {modalActiveCounter && (
           <Modal onCancel={handleCancel}>
             <AddCounter onAdd={handleAdd} />
@@ -250,6 +287,26 @@ export default function WidgetTools() {
         {modalActiveSetting && (
           <Modal onCancel={handleCancel}>
             <ModalSetting listAllWidgets={listAllWidgets}>
+              <HeadSettings title="JustShout text">
+                <fieldset>
+                  <form className="flex">
+                    <div className="flex-1 mr-1">
+                      <input
+                        type="text"
+                        className="w-full px-2.5 py-1 border focus:outline-none rounded-md"
+                        placeholder="Enter text"
+                        defaultValue={123}
+                      />
+                    </div>
+                    <div>
+                      <button className="text-white focus:outline-none px-4 py-1 rounded-md bg-blue-500 hover:bg-blue-600">
+                        {" "}
+                        Edit
+                      </button>
+                    </div>
+                  </form>
+                </fieldset>
+              </HeadSettings>
               <HeadSettings title="Reset Zone">
                 <div className="flex items-center">
                   <select
@@ -260,10 +317,7 @@ export default function WidgetTools() {
                     <option value="counter">All counters</option>
                     <option value="timer">All timers</option>
                   </select>
-                  <button
-                    onClick={handleReset}
-                    className={settingsBtn}
-                  >
+                  <button onClick={handleReset} className={settingsBtn}>
                     {" "}
                     Set zero
                   </button>
@@ -271,7 +325,7 @@ export default function WidgetTools() {
               </HeadSettings>
               <HeadSettings title="Delete Zone">
                 <button
-                  onClick={handleClear} 
+                  onClick={handleClear}
                   className={`${settingsBtn} w-full mb-1`}
                 >
                   {" "}

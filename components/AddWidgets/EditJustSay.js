@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
-import AddWidgetForm from '../Layouts/AddWidgetForm';
+import React, { useState } from "react";
+import AddWidgetForm from "../Layouts/AddWidgetForm";
 
-export default function EditJustSay({ onEditSubmit, list }) {
-  const [checkError, setCheckError] = useState('');
+export default function EditJustSay({ onEditSubmit, list, title }) {
+  const [checkError, setCheckError] = useState("");
   const onSubmit = (e) => {
     e.preventDefault();
     if (e.target.title.value.length < 3) {
-      setCheckError('Please enter at least 3 characters.');
-    }
-     else {
-       console.log(list,"in EditJustSay");
-      onEditSubmit(list.id, e.target.title.value.trim()); 
+      setCheckError("Please enter at least 3 characters.");
+    } else {
+      console.log(list, "in EditJustSay");
+      onEditSubmit(list.id, e.target.title.value.trim());
     }
   };
-  return ( 
-  <AddWidgetForm title="Edit JustSay" onSubmit={onSubmit} type="text" defaultValue={list.value} checkError={checkError}/>
+  return (
+    <AddWidgetForm
+      title={title}
+      onSubmit={onSubmit}
+      type="text"
+      defaultValue={list.value}
+      checkError={checkError}
+    />
   );
 }

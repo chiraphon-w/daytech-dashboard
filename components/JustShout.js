@@ -5,34 +5,34 @@ import EditJustSay from "./AddWidgets/EditJustSay";
 import Modal from "./Layouts/Modal";
 import { IoClose } from "react-icons/io5";
 
-export default function JustSay({ list, onDelete, onEdit }) {
-  const [modalActiveEditJustSay, setModalActiveEditJustSay] = useState(false);
+export default function JustShout({ list, onDelete, onEdit }) {
+  const [modalActiveEditJustShout, setModalActiveEditJustShout] = useState(false);
 
   const handleCancel = function () {
-    setModalActiveEditJustSay(false);
+    setModalActiveEditJustShout(false);
   };
   const handleDelete = function () {
     onDelete(list);
   };
 
   const handleEdit = function () {
-    setModalActiveEditJustSay(true);
+    setModalActiveEditJustShout(true);
   };
 
   const onEditSubmit = (id, value) => {
     onEdit(id, value);
-    setModalActiveEditJustSay(false);
+    setModalActiveEditJustShout(false);
   }
 
   return (
     <>
-      {modalActiveEditJustSay && (
+      {modalActiveEditJustShout && (
         <Modal onCancel={handleCancel}>
-          <EditJustSay title="Edit JustSay" onEditSubmit={onEditSubmit} list={list} />
+          <EditJustSay title="Edit JustShout" onEditSubmit={onEditSubmit} list={list} />
         </Modal>
       )}
       <Card
-        title="JustSay"
+        title="JustShout"
         closeBtn={<IoClose />}
         editBtn={<MdEdit />}
         key={list.id}
