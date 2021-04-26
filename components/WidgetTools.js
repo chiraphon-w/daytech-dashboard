@@ -6,10 +6,10 @@ import {
   RiIncreaseDecreaseLine,
   RiSettings3Line,
 } from "react-icons/ri";
-import { BiBomb } from "react-icons/bi";
 import { AiOutlineMessage } from "react-icons/ai";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { IoTimerOutline } from "react-icons/io5";
+import { TiWeatherPartlySunny } from "react-icons/ti";
 
 import WidgetsCard from "./Layouts/WidgetsCard";
 import Modal from "./Layouts/Modal";
@@ -23,10 +23,7 @@ import Card from "./Layouts/Card";
 import { HeadSettings } from "./Layouts/Settings";
 import AddJustShout from "./AddWidgets/AddJustShout";
 import JustShout from "./JustShout";
-import { data } from "autoprefixer";
-import { useEffect } from "react";
-import AddWidgetForm from "./Layouts/AddWidgetForm";
-import EditJustS from "./AddWidgets/EditJustS";
+
 
 export default function WidgetTools() {
   let ct = "mx-auto text-4xl";
@@ -87,6 +84,7 @@ export default function WidgetTools() {
   const handleClear = function () {
     setListAllWidgets([]);
     setModalActiveSetting(false);
+    setDefaultValueShout("");
   };
 
   const onUpdateValue = (id, value) => {
@@ -101,7 +99,6 @@ export default function WidgetTools() {
   const handleReset = () => {
     let newWidgets = [];
     listAllWidgets.map((list) => {
-      console.log("selectedOption: ", selectedOption, "list.type: ", list.type);
       if (selectedOption === "" && list.type === "counter") {
         setSelectedOption("counter");
         list.value = 0;
@@ -120,6 +117,7 @@ export default function WidgetTools() {
         listAllWidgets.filter((widget) => widget.id !== list.id)
       );
     }
+    setDefaultValueShout("");
   };
 
   const onEdit = (newId, newValue) => {
@@ -136,7 +134,6 @@ export default function WidgetTools() {
   };
 
   const onEditJustShout = (newValue) => {
-    console.log(newValue, "onEditJustShout");
     let newListAllWidgets = [];
     listAllWidgets.map((data) => {
       if (data.type === "justShout") {
@@ -167,9 +164,7 @@ export default function WidgetTools() {
         }
       });
     }
-
     setListAllWidgets([...listAllWidgets, data]);
-    console.log(listAllWidgets, "handleAdd");
     handleCancel();
   };
 
@@ -285,6 +280,11 @@ export default function WidgetTools() {
                   <IoTimerOutline className={ct} />
                 </WidgetsCard>
               </div>
+              <div onClick={handleCounter} className={menuSty}>
+                <WidgetsCard title="Weather">
+                  <TiWeatherPartlySunny className={ct} />
+                </WidgetsCard>
+              </div>
             </div>
           </Modal>
         )}
@@ -310,7 +310,12 @@ export default function WidgetTools() {
 
         {modalActiveSetting && (
           <Modal onCancel={handleCancel}>
-            <ModalSetting listAllWidgets={listAllWidgets} defaultValueShout={defaultValueShout} onEditJustShout={onEditJustShout} handleClear={handleClear}>
+            <ModalSetting
+              listAllWidgets={listAllWidgets}
+              defaultValueShout={defaultValueShout}
+              onEditJustShout={onEditJustShout}
+              handleClear={handleClear}
+            >
               <HeadSettings title="Reset Zone">
                 <div className="flex items-center">
                   <select

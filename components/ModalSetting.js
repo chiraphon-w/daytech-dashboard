@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "./Buttons/Button";
 import { HeadSettings, TableSettings } from "./Layouts/Settings";
 
 export default function ModalSetting({
@@ -12,12 +13,65 @@ export default function ModalSetting({
   let jsLength = 0;
   let sumCount = 0;
   let sumTime = 0;
+  let disabled = true;
+  let inputSty = "w-full px-2.5 py-1 border focus:outline-none rounded-md";
   let settingsBtn =
     "text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600";
-  const [checkError, setCheckError] = useState("");
 
+  let editJustShout = (
+    <HeadSettings title="JustShout text">
+      <fieldset disabled>
+        <form className="flex">
+          <div className="flex-1 mr-1">
+            <input
+              type="text"
+              className={inputSty}
+              placeholder="Enter text"
+              defaultValue=""
+            />
+          </div>
+          <div>
+            <Button disabled={disabled}>Edit</Button>
+          </div>
+        </form>
+      </fieldset>
+    </HeadSettings>
+  );
+
+  const [checkError, setCheckError] = useState("");
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (e.target.title.value.length < 3) {
+      setCheckError("Please enter at least 3 characters.");
+    } else {
+      onEditJustShout(e.target.title.value.trim());
+    }
+  };
   listAllWidgets.map((list) => {
     if (list.type === "justSay" || list.type === "justShout") {
+      if (list.type === "justShout" && list.value) {
+        editJustShout = (
+          <HeadSettings title="JustShout text">
+            <fieldset>
+              <form onSubmit={onSubmit} className="flex">
+                <div className="flex-1 mr-1">
+                  <input
+                    name="title"
+                    type="text"
+                    className={inputSty}
+                    placeholder="Enter text"
+                    defaultValue={defaultValueShout}
+                  />
+                </div>
+                <div>
+                  <Button disabled={!disabled}>Edit</Button>
+                </div>
+              </form>
+              <div className="text-red-600 text-xs mt-1">{checkError}</div>
+            </fieldset>
+          </HeadSettings>
+        );
+      }
       jsLength = jsLength + list.value.length;
     } else if (list.type === "counter") {
       sumCount = sumCount + list.value;
@@ -32,16 +86,6 @@ export default function ModalSetting({
     </>
   );
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    if (e.target.title.value.length < 3) {
-      setCheckError("Please enter at least 3 characters.");
-    } else {
-      console.log(e.target.title.value.trim(), "ModalSetting");
-      onEditJustShout(e.target.title.value.trim());
-    }
-  };
-
   return (
     <div>
       <h2 className="text-xl mb-4">Settings</h2>
@@ -53,35 +97,14 @@ export default function ModalSetting({
           <TableSettings title="Total time">{totalTime}</TableSettings>
         </div>
       </HeadSettings>
-      <HeadSettings title="JustShout text">
-        <fieldset>
-          <form onSubmit={onSubmit} className="flex">
-            <div className="flex-1 mr-1">
-              <input
-                name="title"
-                type="text"
-                className="w-full px-2.5 py-1 border focus:outline-none rounded-md"
-                placeholder="Enter text"
-                defaultValue={defaultValueShout}
-              />
-            </div>
-            <div>
-              <button className="text-white focus:outline-none px-4 py-1 rounded-md bg-blue-500 hover:bg-blue-600">
-                {" "}
-                Edit
-              </button>
-            </div>
-          </form>
-          <div className="text-red-600 text-xs mt-1">{checkError}</div>
-        </fieldset>
-      </HeadSettings>
+      {editJustShout}
+      {children}
       <HeadSettings title="Delete Zone">
         <button onClick={handleClear} className={`${settingsBtn} w-full mb-1`}>
           {" "}
           Delete all widgets
         </button>
       </HeadSettings>
-      {children}
     </div>
   );
 }
