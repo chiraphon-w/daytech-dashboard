@@ -9,6 +9,7 @@ export default function AddWidgetForm({
   checkError,
   type,
   pattern,
+  placeholder
 }) {
   return (
     <div>
@@ -21,7 +22,7 @@ export default function AddWidgetForm({
             pattern={pattern}
             className="w-full px-2.5 py-1 focus:outline-none rounded-md"
             defaultValue={defaultValue}
-            placeholder="Enter text"
+            placeholder={placeholder}
           />
         </div>
         <Button>Add</Button>

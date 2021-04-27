@@ -18,6 +18,7 @@ export default function AddJustShout({ onAdd, defaultValueShout }) {
       defaultValue={defaultValueShout}
       onSubmit={onSubmit}
       type="text"
+      placeholder="Enter text"
       checkError={checkError}
     />
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddWidgetForm from "../Layouts/AddWidgetForm";
 import openweather from "../../pages/api/openweather";
-export default function AddWeather({ onAdd, defaultValue }) {
+export default function AddWeather({ onAdd }) {
   const [checkError, setCheckError] = useState("");
 
   const onSubmit = async (e) => {
@@ -31,8 +31,7 @@ export default function AddWeather({ onAdd, defaultValue }) {
       title="Add Weather"
       onSubmit={onSubmit}
       type="text"
-      defaultValue={defaultValue}
-      placeholder="Enter text"
+      placeholder="Enter City"
       checkError={checkError}
     />
   );

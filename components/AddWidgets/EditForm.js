@@ -28,6 +28,7 @@ export default function EditForm({ onEditSubmit, list, title }) {
       onSubmit={onSubmit}
       type="text"
       defaultValue={dfValue}
+      placeholder="Enter text"
       checkError={checkError}
     />
   );

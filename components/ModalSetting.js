@@ -13,6 +13,8 @@ export default function ModalSetting({
   let jsLength = 0;
   let sumCount = 0;
   let sumTime = 0;
+  let min = 99999;
+  let minTemp = 0;
   let disabled = true;
   let inputSty = "w-full px-2.5 py-1 border focus:outline-none rounded-md";
   let settingsBtn =
@@ -78,9 +80,12 @@ export default function ModalSetting({
       sumCount = sumCount + list.value;
     } else if (list.type === "timer") {
       sumTime = sumTime + list.value;
-    }
-    else if (list.type === "weather") {
-       cityName = list.value.name;
+    } else if (list.type === "weather") {
+      minTemp = `${parseInt(list.value.main.temp)}`;
+      if (minTemp < min) {
+        min = minTemp;
+        cityName = list.value.name;
+      }
     }
   });
   let totalTime = (

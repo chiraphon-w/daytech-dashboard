@@ -15,11 +15,7 @@ export default function Weather({ list, onDelete, onEditWeather }) {
   let h3Sty = "text-xl font-bold capitalize";
 
   if (list.type === "weatherNF") {
-    dataName = (
-      <h3 className={`${h3Sty} text-red-600`}>
-        {list.value}
-      </h3>
-    );
+    dataName = <h3 className={`${h3Sty} text-red-600`}>{list.value}</h3>;
     dataIconDesc = (
       <h4 className="text-red-400 -mt-1">
         <span className="align-middle">City not found</span>
@@ -31,9 +27,7 @@ export default function Weather({ list, onDelete, onEditWeather }) {
     );
   } else {
     reBtnCard = <MdRefresh />;
-    dataName = (
-      <h3 className={h3Sty}>{list.value.name}</h3>
-    );
+    dataName = <h3 className={h3Sty}>{list.value.name}</h3>;
     dataIconDesc = (
       <h4 className="text-gray-400 -mt-1 flex justify-center items-center">
         <img
@@ -46,7 +40,7 @@ export default function Weather({ list, onDelete, onEditWeather }) {
     );
     dataTemp = (
       <h2 className="text-gray-500 mt-1 text-5xl font-extralight">
-        {`${list.value.main.temp}°`}
+        {`${parseInt(list.value.main.temp)}°`}
       </h2>
     );
   }
@@ -89,14 +83,14 @@ export default function Weather({ list, onDelete, onEditWeather }) {
           units: "metric",
         },
       });
-      
+
       // destructuring array
       const { data } = res;
       onEditWeather(list.id, "weather", data);
     } catch {
       onEditWeather(list.id, "weatherNF", list.value.name);
     }
-  }
+  };
 
   return (
     <>
