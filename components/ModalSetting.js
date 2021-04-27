@@ -42,7 +42,7 @@ export default function ModalSetting({
   const [checkError, setCheckError] = useState("");
   const onSubmit = (e) => {
     e.preventDefault();
-    if (e.target.title.value.length < 3) {
+    if (e.target.title.value.trim().length < 3) {
       setCheckError("Please enter at least 3 characters.");
     } else {
       onEditJustShout(e.target.title.value.trim());

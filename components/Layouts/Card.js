@@ -7,6 +7,7 @@ export default function Card({
   closeBtn,
   editBtn,
   onEdit,
+  onRefresh,
   refreshBtn
 }) {
   const handleClick = function (e) {
@@ -16,8 +17,7 @@ export default function Card({
     onEdit(e);
   };
   const handleRefresh = function (e) {
-    // onEdit(e);
-    console.log("handleRefresh");
+    onRefresh(e)
   };
 
   return (

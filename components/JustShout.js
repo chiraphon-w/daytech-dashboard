@@ -3,7 +3,7 @@ import Card from "../components/Layouts/Card";
 import { MdEdit } from "react-icons/md";
 import Modal from "./Layouts/Modal";
 import { IoClose } from "react-icons/io5";
-import EditJustS from "./AddWidgets/EditJustS";
+import EditForm from "./AddWidgets/EditForm";
 
 export default function JustShout({ list, onDelete, onEditJustShout }) {
   const [modalActiveEditJustShout, setModalActiveEditJustShout] = useState(false);
@@ -28,7 +28,7 @@ export default function JustShout({ list, onDelete, onEditJustShout }) {
     <>
       {modalActiveEditJustShout && (
         <Modal onCancel={handleCancel}>
-          <EditJustS title="Edit JustShout"  onEditSubmit={onEditSubmit} list={list} />
+          <EditForm title="Edit JustShout"  onEditSubmit={onEditSubmit} list={list} />
         </Modal>
       )}
       <Card

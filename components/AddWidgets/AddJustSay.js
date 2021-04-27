@@ -6,7 +6,7 @@ export default function AddJustSay({ onAdd }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (e.target.title.value.length < 3) {
+    if (e.target.title.value.trim().length < 3) {
       setCheckError('Please enter at least 3 characters.');
     } else {
       onAdd('justSay', e.target.title.value.trim()); //ส่งข้อมูล type, value กลับไปยัง handleAdd ใน WidgetTools

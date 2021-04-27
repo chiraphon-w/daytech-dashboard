@@ -35,17 +35,6 @@ export default function WidgetTools() {
     "text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600";
   let disabled = false;
 
-  let d = new Date();
-  let ye = new Intl.DateTimeFormat("en", { year: "2-digit" }).format(d);
-  let mo = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
-  let da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
-  let hms = new Intl.DateTimeFormat("en", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  }).format(d);
-  const realTime = `Last updated on ${mo} ${da}, ${ye}, ${hms}`;
-
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
   const [modalActiveJustSay, setModalActiveJustSay] = useState(false);
   const [modalActiveJustShout, setModalActiveJustShout] = useState(false);
@@ -94,10 +83,27 @@ export default function WidgetTools() {
     setDefaultValueShout("");
   };
 
+  const dateTime = () => {
+    let realTime;
+    let d = new Date();
+    let ye = new Intl.DateTimeFormat("en", { year: "2-digit" }).format(d);
+    let mo = new Intl.DateTimeFormat("en", { month: "short" }).format(d);
+    let da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d);
+    let hms = new Intl.DateTimeFormat("en", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    }).format(d);
+     return realTime = `Last updated on ${mo} ${da}, ${ye}, ${hms}`;
+  };
+
   const onUpdateValue = (id, value) => {
     let newWidgets = [...listAllWidgets];
     newWidgets.map((widget) => {
-      if (widget.id === id) widget.value = value;
+      if (widget.id === id) {
+        widget.value = value;
+        widget.date = dateTime();
+      }
     });
 
     setListAllWidgets(newWidgets);
@@ -129,12 +135,25 @@ export default function WidgetTools() {
 
   const onEdit = (newId, newValue) => {
     let newListAllWidgets = [];
-    console.log("onEdit ", newValue);
     listAllWidgets.map((data) => {
       if (data.id === newId) {
         data.value = newValue;
       }
 
+      newListAllWidgets.push(data);
+    });
+
+    setListAllWidgets(newListAllWidgets);
+  };
+
+  const onEditWeather = (newId, newType, newValue) => {
+    let newListAllWidgets = [];
+    listAllWidgets.map((data) => {
+      if (data.id === newId) {
+        data.value = newValue;
+        data.type = newType;
+        data.date = dateTime();
+      }
       newListAllWidgets.push(data);
     });
 
@@ -160,7 +179,7 @@ export default function WidgetTools() {
     const id = Math.floor(Math.random() * 10000) + 1;
     const data = {
       id, //id: id
-      date: realTime,
+      date: dateTime(),
       type,
       value,
     };
@@ -221,7 +240,7 @@ export default function WidgetTools() {
               key={list.id}
               list={list}
               onDelete={handleDelete}
-              onEdit={onEdit}
+              onEditWeather={onEditWeather}
             />
           );
         }

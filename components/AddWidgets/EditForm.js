@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddWidgetForm from "../Layouts/AddWidgetForm";
 
-export default function EditJustS({ onEditSubmit, list, title }) {
+export default function EditForm({ onEditSubmit, list, title }) {
   const [checkError, setCheckError] = useState("");
   let dfValue = list.value;
   if (list.type === "weather") {
@@ -9,16 +9,15 @@ export default function EditJustS({ onEditSubmit, list, title }) {
   }
   const onSubmit = (e) => {
     e.preventDefault();
-    if (e.target.title.value.length < 3) {
+    if (e.target.title.value.trim().length < 3) {
       setCheckError("Please enter at least 3 characters.");
     } else {
       if (list.type === "justSay") {
         onEditSubmit(list.id, e.target.title.value.trim());
       } else if (list.type === "justShout") {
         onEditSubmit(e.target.title.value.trim());
-      }
-      else if (list.type === "weather") {
-        onEditSubmit(e.target.title.value.trim());
+      } else if (list.type === "weather" || list.type === "weatherNF") {
+        onEditSubmit(list.id, list.type, e.target.title.value.trim());
       }
     }
   };

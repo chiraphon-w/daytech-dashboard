@@ -3,25 +3,23 @@ import Card from "../components/Layouts/Card";
 import { MdEdit, MdRefresh } from "react-icons/md";
 import Modal from "./Layouts/Modal";
 import { IoClose } from "react-icons/io5";
-import EditJustS from "./AddWidgets/EditJustS";
-// import openweather from "../../pages/api/openweather";
+import EditForm from "./AddWidgets/EditForm";
+import openweather from "../pages/api/openweather";
 
-export default function Weather({ list, onDelete, onEdit }) {
+export default function Weather({ list, onDelete, onEditWeather }) {
   const [modalActiveEditWeather, setModalActiveEditWeather] = useState(false);
-  console.log("list : ", list);
   let dataName;
   let dataIconDesc;
   let dataTemp;
   let reBtnCard;
+  let h3Sty = "text-xl font-bold capitalize";
 
   if (list.type === "weatherNF") {
-    console.log("yoo ", list.value);
     dataName = (
-      <h3 className="text-xl font-bold capitalize text-red-600">
+      <h3 className={`${h3Sty} text-red-600`}>
         {list.value}
       </h3>
     );
-
     dataIconDesc = (
       <h4 className="text-red-400 -mt-1">
         <span className="align-middle">City not found</span>
@@ -34,7 +32,7 @@ export default function Weather({ list, onDelete, onEdit }) {
   } else {
     reBtnCard = <MdRefresh />;
     dataName = (
-      <h3 className="text-xl font-bold capitalize">{list.value.name}</h3>
+      <h3 className={h3Sty}>{list.value.name}</h3>
     );
     dataIconDesc = (
       <h4 className="text-gray-400 -mt-1 flex justify-center items-center">
@@ -63,17 +61,48 @@ export default function Weather({ list, onDelete, onEdit }) {
   const handleEdit = function () {
     setModalActiveEditWeather(true);
   };
+  // id, type, value
+  const onEditSubmit = async (id, type, name) => {
+    try {
+      const res = await openweather.get("/data/2.5/weather", {
+        params: {
+          q: name,
+          units: "metric",
+        },
+      });
 
-  const onEditSubmit = (id, value) => {
-    onEdit(id, value);
+      // destructuring array
+      const { data } = res;
+      onEditWeather(id, "weather", data);
+    } catch {
+      onEditWeather(id, "weatherNF", name);
+    }
+
     setModalActiveEditWeather(false);
   };
+
+  const handleRefresh = async () => {
+    try {
+      const res = await openweather.get("/data/2.5/weather", {
+        params: {
+          q: list.value.name,
+          units: "metric",
+        },
+      });
+      
+      // destructuring array
+      const { data } = res;
+      onEditWeather(list.id, "weather", data);
+    } catch {
+      onEditWeather(list.id, "weatherNF", list.value.name);
+    }
+  }
 
   return (
     <>
       {modalActiveEditWeather && (
         <Modal onCancel={handleCancel}>
-          <EditJustS
+          <EditForm
             title="Edit Weather"
             onEditSubmit={onEditSubmit}
             list={list}
@@ -88,6 +117,7 @@ export default function Weather({ list, onDelete, onEdit }) {
         key={list.id}
         onDelete={handleDelete}
         onEdit={handleEdit}
+        onRefresh={handleRefresh}
         list={list}
       >
         <div className="text-center">
