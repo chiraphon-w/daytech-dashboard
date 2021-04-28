@@ -55,9 +55,7 @@ export default function Counter({ list, onDelete, onUpdateValue }) {
           </button>
         </div>
         {resetButton}
-        <div className='text-xs text-gray-400'>
-          <div className='mt-6 -mb-2 text-center'>{list.date}</div>
-        </div>
+        <div className="mt-6 "></div>
       </div>
     </Card>
   );

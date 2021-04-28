@@ -28,6 +28,7 @@ import AddWeather from "./AddWidgets/AddWeather";
 import Weather from "./Weather";
 import AirQuality from "./AirQuality";
 import AddAirQuality from "./AddWidgets/AddAirQuality";
+import iqair from "../pages/api/iqair";
 
 export default function WidgetTools() {
   let ct = "mx-auto text-4xl";
@@ -55,17 +56,22 @@ export default function WidgetTools() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("listAllWidgets", JSON.stringify(listAllWidgets));
+    localStorage.setItem("listAllWidgets", JSON.stringify(listAllWidgets)); //save local storage
+    localStorage.setItem("defaultValueShout", JSON.stringify(defaultValueShout));
   }, [listAllWidgets]);
 
   const getLocal = () => {
-    if (localStorage.getItem("listAllWidgets") === null) {
+    if (localStorage.getItem("listAllWidgets") === null || localStorage.getItem("defaultValueShout") === null) {
       localStorage.setItem("listAllWidgets", JSON.stringify([]));
+      localStorage.setItem("defaultValueShout", JSON.stringify([]));
     } else {
       let listLocal = JSON.parse(localStorage.getItem("listAllWidgets"));
+      let defaultLocal = JSON.parse(localStorage.getItem("defaultValueShout"));
       setListAllWidgets(listLocal);
+      setDefaultValueShout(defaultLocal);
     }
   };
+
 
   const handleClick = function () {
     setModalActiveMenu(true);
@@ -86,8 +92,29 @@ export default function WidgetTools() {
     setModalActiveWeather(true);
     setModalActiveMenu(false);
   };
-  const handleAir = function () {
-    setModalActiveAir(true);
+  const handleAir = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await iqair.get("/v2/nearest_city", {
+        params: {
+          // city: "Bang Bon",
+          state: "Bangkok",
+          country: "Thailand",
+          key: "ed9ce571-0340-4567-972c-a714e9b095e2",
+        },
+      });
+
+      // destructuring array
+      const { data } = res;
+      console.log("AddAirQuality data : ", data.data);
+      console.log("AddAirQuality country : ", data.data.country);
+      console.log("AddAirQuality state : ", data.data.state);
+      console.log("AddAirQuality aqius : ", data.data.current.pollution.aqius);
+
+      handleAdd("iqair", data);
+    } catch {
+      handleAdd("iqairNF", "test"); //City not found!
+    }
     setModalActiveMenu(false);
   };
   const handleCancel = function () {
@@ -356,6 +383,7 @@ export default function WidgetTools() {
                   <TiWeatherPartlySunny className={ct} />
                 </WidgetsCard>
               </div>
+
               <div onClick={handleAir} className={menuSty}>
                 <WidgetsCard title="AirQuality">
                   <BiWind className={ct} />
