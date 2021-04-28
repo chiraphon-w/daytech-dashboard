@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./Buttons/Button";
 import ModalSetting from "./ModalSetting";
 import {
@@ -10,6 +10,7 @@ import { AiOutlineMessage } from "react-icons/ai";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { IoTimerOutline } from "react-icons/io5";
 import { TiWeatherPartlySunny } from "react-icons/ti";
+import { BiWind } from "react-icons/bi";
 
 import WidgetsCard from "./Layouts/WidgetsCard";
 import Modal from "./Layouts/Modal";
@@ -25,6 +26,8 @@ import AddJustShout from "./AddWidgets/AddJustShout";
 import JustShout from "./JustShout";
 import AddWeather from "./AddWidgets/AddWeather";
 import Weather from "./Weather";
+import AirQuality from "./AirQuality";
+import AddAirQuality from "./AddWidgets/AddAirQuality";
 
 export default function WidgetTools() {
   let ct = "mx-auto text-4xl";
@@ -40,11 +43,29 @@ export default function WidgetTools() {
   const [modalActiveJustShout, setModalActiveJustShout] = useState(false);
   const [modalActiveCounter, setModalActiveCounter] = useState(false);
   const [modalActiveWeather, setModalActiveWeather] = useState(false);
+  const [modalActiveAir, setModalActiveAir] = useState(false);
   const [modalActiveSetting, setModalActiveSetting] = useState(false);
 
   const [listAllWidgets, setListAllWidgets] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const [defaultValueShout, setDefaultValueShout] = useState([]);
+
+  useEffect(() => {
+    getLocal();
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("listAllWidgets", JSON.stringify(listAllWidgets));
+  }, [listAllWidgets]);
+
+  const getLocal = () => {
+    if (localStorage.getItem("listAllWidgets") === null) {
+      localStorage.setItem("listAllWidgets", JSON.stringify([]));
+    } else {
+      let listLocal = JSON.parse(localStorage.getItem("listAllWidgets"));
+      setListAllWidgets(listLocal);
+    }
+  };
 
   const handleClick = function () {
     setModalActiveMenu(true);
@@ -65,12 +86,17 @@ export default function WidgetTools() {
     setModalActiveWeather(true);
     setModalActiveMenu(false);
   };
+  const handleAir = function () {
+    setModalActiveAir(true);
+    setModalActiveMenu(false);
+  };
   const handleCancel = function () {
     setModalActiveMenu(false);
     setModalActiveJustSay(false);
     setModalActiveJustShout(false);
     setModalActiveCounter(false);
     setModalActiveWeather(false);
+    setModalActiveAir(false);
     setModalActiveSetting(false);
   };
 
@@ -94,7 +120,7 @@ export default function WidgetTools() {
       minute: "2-digit",
       second: "2-digit",
     }).format(d);
-     return realTime = `Last updated on ${mo} ${da}, ${ye}, ${hms}`;
+    return (realTime = `Last updated on ${mo} ${da}, ${ye}, ${hms}`);
   };
 
   const onUpdateValue = (id, value) => {
@@ -243,6 +269,15 @@ export default function WidgetTools() {
               onEditWeather={onEditWeather}
             />
           );
+        } else if (list.type === "iqair" || list.type === "iqairNF") {
+          return (
+            <AirQuality
+              key={list.id}
+              list={list}
+              onDelete={handleDelete}
+              onEditWeather={onEditWeather}
+            />
+          );
         }
       });
     } else {
@@ -321,6 +356,11 @@ export default function WidgetTools() {
                   <TiWeatherPartlySunny className={ct} />
                 </WidgetsCard>
               </div>
+              <div onClick={handleAir} className={menuSty}>
+                <WidgetsCard title="AirQuality">
+                  <BiWind className={ct} />
+                </WidgetsCard>
+              </div>
             </div>
           </Modal>
         )}
@@ -345,10 +385,12 @@ export default function WidgetTools() {
         )}
         {modalActiveWeather && (
           <Modal onCancel={handleCancel}>
-            <AddWeather
-              onAdd={handleAdd}
-              defaultValueShout={defaultValueShout}
-            />
+            <AddWeather onAdd={handleAdd} />
+          </Modal>
+        )}
+        {modalActiveAir && (
+          <Modal onCancel={handleCancel}>
+            <AddAirQuality onAdd={handleAdd} />
           </Modal>
         )}
         {modalActiveSetting && (

@@ -31,7 +31,7 @@ export default function AddWeather({ onAdd }) {
       title="Add Weather"
       onSubmit={onSubmit}
       type="text"
-      placeholder="Enter City"
+      placeholder="Enter a city"
       checkError={checkError}
     />
   );

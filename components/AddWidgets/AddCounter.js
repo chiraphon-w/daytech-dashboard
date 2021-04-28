@@ -21,6 +21,7 @@ export default function AddCounter({ onAdd }) {
       onSubmit={onSubmit}
       type="number"
       pattern="[0-9]"
+      placeholder="Enter the initial value"
       checkError={checkError}
     />
   );

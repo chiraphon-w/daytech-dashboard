@@ -3,9 +3,11 @@ import AddWidgetForm from "../Layouts/AddWidgetForm";
 
 export default function EditForm({ onEditSubmit, list, title }) {
   const [checkError, setCheckError] = useState("");
+  let placeholder="Enter text";
   let dfValue = list.value;
   if (list.type === "weather") {
     dfValue = list.value.name;
+    placeholder="Enter a city";
   }
   const onSubmit = (e) => {
     e.preventDefault();
@@ -28,7 +30,7 @@ export default function EditForm({ onEditSubmit, list, title }) {
       onSubmit={onSubmit}
       type="text"
       defaultValue={dfValue}
-      placeholder="Enter text"
+      placeholder={placeholder}
       checkError={checkError}
     />
   );
