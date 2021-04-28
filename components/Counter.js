@@ -14,7 +14,7 @@ export default function Counter({ list, onDelete, onUpdateValue }) {
   let disabled = true;
 
   const handleClick = () => {
-    onUpdateValue(list.id, 0)
+    onUpdateValue(list.id, 0);
   };
 
   if (count == 0) {
@@ -31,7 +31,10 @@ export default function Counter({ list, onDelete, onUpdateValue }) {
       </Button>
     );
     decrease = (
-      <button onClick={() => onUpdateValue(list.id, count - 1)} className={`${countClass} + ${countBlue}`}>
+      <button
+        onClick={() => onUpdateValue(list.id, count - 1)}
+        className={`${countClass} + ${countBlue}`}
+      >
         -
       </button>
     );
@@ -39,10 +42,15 @@ export default function Counter({ list, onDelete, onUpdateValue }) {
 
   const handleDelete = function () {
     onDelete(list);
-  }
+  };
 
   return (
-    <Card title='Counter' closeBtn={<IoClose />} key={list.id} onDelete={handleDelete}>
+    <Card
+      title='Counter'
+      closeBtn={<IoClose />}
+      key={list.id}
+      onDelete={handleDelete}
+    >
       <div className='text-center'>
         <div className='flex items-center justify-center mt-4 mb-6'>
           {decrease}
@@ -55,7 +63,7 @@ export default function Counter({ list, onDelete, onUpdateValue }) {
           </button>
         </div>
         {resetButton}
-        <div className="mt-6 "></div>
+        <div className='mt-6 '></div>
       </div>
     </Card>
   );

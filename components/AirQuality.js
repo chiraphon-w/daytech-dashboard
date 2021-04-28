@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import Card from "../components/Layouts/Card";
-import { MdEdit, MdRefresh } from "react-icons/md";
-import Modal from "./Layouts/Modal";
-import { IoClose } from "react-icons/io5";
-import EditForm from "./AddWidgets/EditForm";
-import iqair from "../pages/api/iqair";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from 'react';
+import Card from '../components/Layouts/Card';
+import { MdEdit, MdRefresh } from 'react-icons/md';
+import Modal from './Layouts/Modal';
+import { IoClose } from 'react-icons/io5';
+import EditForm from './AddWidgets/EditForm';
+import iqair from '../pages/api/iqair';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSmile,
   faMeh,
   faFrown,
   faFrownOpen,
   faTired,
-  faDizzy
-} from "@fortawesome/free-solid-svg-icons";
+  faDizzy,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function AirQuality({ list, onDelete, onEditWeather }) {
   const [modalActiveEditWeather, setModalActiveEditWeather] = useState(false);
@@ -21,7 +21,7 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
   let dataIconDesc;
   let dataTemp;
   let reBtnCard;
-  let h3Sty = "text-xl font-bold capitalize";
+  let h3Sty = 'text-xl font-bold capitalize';
 
   let aqius = parseInt(list.value.data.current.pollution.aqius);
   let iconSty;
@@ -29,59 +29,58 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
   let desc;
   if (aqius >= 0 && aqius < 51) {
     iconSty = faSmile;
-    iconColor = "text-green-400";
-    desc = "Good";
+    iconColor = 'text-green-400';
+    desc = 'Good';
   } else if (aqius > 50 && aqius < 101) {
     iconSty = faMeh;
-    iconColor = "text-yellow-300";
-    desc = "Moderate";
+    iconColor = 'text-yellow-300';
+    desc = 'Moderate';
   } else if (aqius > 100 && aqius < 151) {
     iconSty = faFrown;
-    iconColor = "text-yellow-600";
-    desc = "Unhealthy for Sensitive Groups";
+    iconColor = 'text-yellow-600';
+    desc = 'Unhealthy for Sensitive Groups';
   } else if (aqius > 150 && aqius < 201) {
     iconSty = faFrownOpen;
-    iconColor = "text-red-400";
-    desc = "Unhealthy";
+    iconColor = 'text-red-400';
+    desc = 'Unhealthy';
   } else if (aqius > 200 && aqius < 301) {
     iconSty = faTired;
-    iconColor = "text-pink-700";
-    desc = "Very Unhealthy";
-  }
-  else if (aqius > 300 && aqius < 501) {
+    iconColor = 'text-pink-700';
+    desc = 'Very Unhealthy';
+  } else if (aqius > 300 && aqius < 501) {
     iconSty = faDizzy;
-    iconColor = "text-pink-900";
-    desc = "Hazardous";
+    iconColor = 'text-pink-900';
+    desc = 'Hazardous';
   }
-  if (list.type === "weatherNF") {
+  if (list.type === 'weatherNF') {
     dataName = <h3 className={`${h3Sty} text-red-600`}></h3>;
     dataIconDesc = (
-      <h4 className="text-red-400 -mt-1">
-        <span className="align-middle">City not found</span>
+      <h4 className='text-red-400 -mt-1'>
+        <span className='align-middle'>City not found</span>
       </h4>
     );
 
     dataTemp = (
-      <h2 className="text-red-500 mt-1 text-5xl font-extralight">--</h2>
+      <h2 className='text-red-500 mt-1 text-5xl font-extralight'>--</h2>
     );
   } else {
     reBtnCard = <MdRefresh />;
     dataName = <h3 className={h3Sty}>{list.value.data.country}</h3>;
     dataIconDesc = (
-      <h4 className="text-gray-400 -mt-1 flex justify-center items-center">
-        <span className="pr-2">{list.value.data.state}</span>
+      <h4 className='text-gray-400 -mt-1 flex justify-center items-center'>
+        <span className='pr-2'>{list.value.data.state}</span>
       </h4>
     );
     dataTemp = (
       <>
-        <h2 className="text-gray-500 mt-1 text-5xl font-extralight">
-        <p className="text-gray-500 mt-1 text-xl text-center font-extralight">{desc}</p>
+        <h2 className='text-gray-500 mt-1 text-5xl font-extralight'>
+          <p className='text-gray-500 mt-1 text-xl text-center font-extralight'>
+            {desc}
+          </p>
           <FontAwesomeIcon className={`${iconColor} pr-1`} icon={iconSty} />
           {list.value.data.current.pollution.aqius}
         </h2>
-        <p className="text-gray-500 mt-1 text-center font-extralight">
-          US AQI
-        </p>
+        <p className='text-gray-500 mt-1 text-center font-extralight'>US AQI</p>
       </>
     );
   }
@@ -99,18 +98,18 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
   // id, type, value
   const onEditSubmit = async (id, type, name) => {
     try {
-      const res = await openweather.get("/data/2.5/weather", {
+      const res = await openweather.get('/data/2.5/weather', {
         params: {
           q: name,
-          units: "metric",
+          units: 'metric',
         },
       });
 
       // destructuring array
       const { data } = res;
-      onEditWeather(id, "weather", data);
+      onEditWeather(id, 'weather', data);
     } catch {
-      onEditWeather(id, "weatherNF", name);
+      onEditWeather(id, 'weatherNF', name);
     }
 
     setModalActiveEditWeather(false);
@@ -118,18 +117,18 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
 
   const handleRefresh = async () => {
     try {
-      const res = await openweather.get("/data/2.5/weather", {
+      const res = await openweather.get('/data/2.5/weather', {
         params: {
           q: list.value.name,
-          units: "metric",
+          units: 'metric',
         },
       });
 
       // destructuring array
       const { data } = res;
-      onEditWeather(list.id, "weather", data);
+      onEditWeather(list.id, 'weather', data);
     } catch {
-      onEditWeather(list.id, "weatherNF", list.value.name);
+      onEditWeather(list.id, 'weatherNF', list.value.name);
     }
   };
 
@@ -138,14 +137,14 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
       {modalActiveEditWeather && (
         <Modal onCancel={handleCancel}>
           <EditForm
-            title="Edit Weather"
+            title='Edit Weather'
             onEditSubmit={onEditSubmit}
             list={list}
           />
         </Modal>
       )}
       <Card
-        title="AirQuality"
+        title='AirQuality'
         closeBtn={<IoClose />}
         editBtn={<MdEdit />}
         refreshBtn={reBtnCard}
@@ -155,12 +154,12 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
         onRefresh={handleRefresh}
         list={list}
       >
-        <div className="text-center">
+        <div className='text-center'>
           {dataName}
           {dataIconDesc}
           {dataTemp}
-          <div className="text-xs text-gray-400">
-            <div className="mt-6 -mb-2 text-center">{list.date}</div>
+          <div className='text-xs text-gray-400'>
+            <div className='mt-6 -mb-2 text-center'>{list.date}</div>
           </div>
         </div>
       </Card>

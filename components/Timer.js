@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import Card from "../components/Layouts/Card";
-import Button from "../components/Buttons/Button";
-import { IoClose } from "react-icons/io5";
+import React, { useState, useEffect, useRef } from 'react';
+import Card from '../components/Layouts/Card';
+import Button from '../components/Buttons/Button';
+import { IoClose } from 'react-icons/io5';
 
 export default function Timer({ list, onDelete, onUpdateValue }) {
   let disabled = true;
@@ -53,14 +53,14 @@ export default function Timer({ list, onDelete, onUpdateValue }) {
 
   return (
     <Card
-      title="Timer"
+      title='Timer'
       closeBtn={<IoClose />}
       key={list.id}
       onDelete={handleDelete}
     >
-      <div className="text-center space-x-1">
-        <div className="text-6xl mx-7 flex items-center justify-center mt-4 mb-6">
-          <div className="text-6xl mx-7">
+      <div className='text-center space-x-1'>
+        <div className='text-6xl mx-7 flex items-center justify-center mt-4 mb-6'>
+          <div className='text-6xl mx-7'>
             <span>{`0${Math.floor((timer / 60000) % 60)}`.slice(-2)}:</span>
             <span>{`0${Math.floor((timer / 1000) % 60)}`.slice(-2)}</span>
           </div>
@@ -91,7 +91,7 @@ export default function Timer({ list, onDelete, onUpdateValue }) {
           </Button>
         )}
       </div>
-      <div className="mt-6 "></div>
+      <div className='mt-6 '></div>
     </Card>
   );
 }

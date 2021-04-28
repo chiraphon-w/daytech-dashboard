@@ -16,5 +16,4 @@ const Modal = ({ children, onCancel = () => {} }) => {
   );
 };
 
-
 export default Modal;
