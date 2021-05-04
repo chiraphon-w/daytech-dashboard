@@ -22,42 +22,45 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
   let dataTemp;
   let reBtnCard;
   let h3Sty = 'text-xl font-bold capitalize';
-  let aqius;
+  let aqius = null;
   let iconSty;
   let iconColor;
   let desc;
-  if(list){
+  if(list.type === 'iqair'){
+    if (list.value.data.current.pollution.aqius) {
     aqius = parseInt(list.value.data.current.pollution.aqius);
-  } 
-  else{
-    aqius = 0;
+    // aqius = 300;
+    if (aqius >= 0 && aqius < 51) {
+      iconSty = faSmile;
+      iconColor = 'text-green-400';
+      desc = 'Good';
+    } else if (aqius > 50 && aqius < 101) {
+      iconSty = faMeh;
+      iconColor = 'text-yellow-300';
+      desc = 'Moderate';
+    } else if (aqius > 100 && aqius < 151) {
+      iconSty = faFrown;
+      iconColor = 'text-yellow-600';
+      desc = 'Unhealthy for Sensitive Groups';
+    } else if (aqius > 150 && aqius < 201) {
+      iconSty = faFrownOpen;
+      iconColor = 'text-red-400';
+      desc = 'Unhealthy';
+    } else if (aqius > 200 && aqius < 301) {
+      iconSty = faTired;
+      iconColor = 'text-pink-700';
+      desc = 'Very Unhealthy';
+    } else if (aqius > 300 && aqius < 501) {
+      iconSty = faDizzy;
+      iconColor = 'text-pink-900';
+      desc = 'Hazardous';
+    }
+  } else {
+    list.type = 'iqairNF';
   }
+  }
+  
 
-  if (aqius >= 0 && aqius < 51) {
-    iconSty = faSmile;
-    iconColor = 'text-green-400';
-    desc = 'Good';
-  } else if (aqius > 50 && aqius < 101) {
-    iconSty = faMeh;
-    iconColor = 'text-yellow-300';
-    desc = 'Moderate';
-  } else if (aqius > 100 && aqius < 151) {
-    iconSty = faFrown;
-    iconColor = 'text-yellow-600';
-    desc = 'Unhealthy for Sensitive Groups';
-  } else if (aqius > 150 && aqius < 201) {
-    iconSty = faFrownOpen;
-    iconColor = 'text-red-400';
-    desc = 'Unhealthy';
-  } else if (aqius > 200 && aqius < 301) {
-    iconSty = faTired;
-    iconColor = 'text-pink-700';
-    desc = 'Very Unhealthy';
-  } else if (aqius > 300 && aqius < 501) {
-    iconSty = faDizzy;
-    iconColor = 'text-pink-900';
-    desc = 'Hazardous';
-  }
   if (list.type === 'iqairNF') {
     dataName = <h3 className={`${h3Sty} text-red-600`}></h3>;
     dataIconDesc = (
@@ -84,7 +87,7 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
             {desc}
           </p>
           <FontAwesomeIcon className={`${iconColor} pr-1`} icon={iconSty} />
-          {list.value.data.current.pollution.aqius}
+          {aqius}
         </h2>
         <p className='text-gray-500 mt-1 text-center font-extralight'>US AQI</p>
       </>
@@ -102,19 +105,23 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
     try {
       const res = await iqair.get('/v2/city', {
         params: {
-          city: "Bang Bon",
+          city: 'Bangkok',
           state: 'Bangkok',
           country: 'Thailand',
           key: 'ed9ce571-0340-4567-972c-a714e9b095e2',
         },
       });
-
       const { data } = res;
       onEditWeather(list.id, 'iqair', data);
     } catch {
-      onEditWeather(list.id, 'iqairNF', 'City not found');
+      const dataNF = {
+        city: 'city not found',
+        state: 'state not found',
+        country: 'country not found',
+        key: 'ed9ce571-0340-4567-972c-a714e9b095e2',
+      };
+      onEditWeather(list.id, 'iqairNF', dataNF);
     }
-
   };
 
   return (

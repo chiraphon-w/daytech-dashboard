@@ -3,16 +3,15 @@ import Card from '../components/Layouts/Card';
 import Button from '../components/Buttons/Button';
 import { IoClose } from 'react-icons/io5';
 import { useRecoilState } from 'recoil';
-import { setTimerState } from './recoil/atom';
+import { resetAllTimerState } from './recoil/atom';
 
 export default function Timer({ list, onDelete, onUpdateValue }) {
   const timer = list.value;
-  // const [timerOn, setTimerOn] = useState(false);
-  const [timerOn, setTimerOn] = useRecoilState(setTimerState);
+  const [timerOn, setTimerOn] = useState(false);
+  const [resetAllTimer, setResetAllTime] = useRecoilState(resetAllTimerState);
 
   useEffect(() => {
     let interval = null;
-
     if (timerOn) {
       // start
       interval = setInterval(() => {
@@ -25,6 +24,13 @@ export default function Timer({ list, onDelete, onUpdateValue }) {
 
     return () => clearInterval(interval); // when unmount
   }, [timerOn, timer]);
+
+  useEffect(() => {
+    if (resetAllTimer) {
+      setTimerOn(false);
+      setResetAllTime(false);
+    }
+  }, [resetAllTimer]);
 
   const savedCallback = useRef();
   const doingUpdateTimer = () => {
@@ -44,6 +50,7 @@ export default function Timer({ list, onDelete, onUpdateValue }) {
   };
 
   const handleClickReset = () => {
+    console.log('xxxx');
     onUpdateValue(list.id, 0);
     setTimerOn(false);
   };

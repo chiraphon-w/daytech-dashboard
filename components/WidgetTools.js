@@ -28,8 +28,8 @@ import AddWeather from './AddWidgets/AddWeather';
 import Weather from './Weather';
 import AirQuality from './AirQuality';
 import iqair from '../pages/api/iqair';
-import { setTimerState } from './recoil/atom';
 import { useRecoilState } from 'recoil';
+import { resetAllTimerState } from './recoil/atom';
 
 export default function WidgetTools() {
   let ct = 'mx-auto text-4xl';
@@ -49,7 +49,8 @@ export default function WidgetTools() {
   const [listAllWidgets, setListAllWidgets] = useState([]);
   const [selectedOption, setSelectedOption] = useState('');
   const [defaultValueShout, setDefaultValueShout] = useState([]);
-  const [timerOn, setTimerOn] = useRecoilState(setTimerState);
+
+  const [resetAllTime, setResetAllTime] = useRecoilState(resetAllTimerState)
 
   useEffect(() => {
     getLocal();
@@ -102,7 +103,7 @@ export default function WidgetTools() {
     try {
       const res = await iqair.get('/v2/city', {
         params: {
-          city: 'Bang Bon',
+          city: 'Bangkok',
           state: 'Bangkok',
           country: 'Thailand',
           key: 'ed9ce571-0340-4567-972c-a714e9b095e2',
@@ -164,14 +165,15 @@ export default function WidgetTools() {
 
   const handleReset = () => {
     let newWidgets = [];
+    // set recoil state = false
+
     listAllWidgets.map((list) => {
-      if (selectedOption === '' && list.type === 'counter') {
+      if ((selectedOption === '' || selectedOption === list.type) && list.type === 'counter') {
         setSelectedOption('counter');
         list.value = 0;
-      } else if (selectedOption === list.type) {
-        console.log('setTimerOn', timerOn);
-        setTimerOn(false);
+      } else if (selectedOption === list.type && list.type === 'timer') {
         list.value = 0;
+        setResetAllTime(true);
       }
       newWidgets.push(list);
     });

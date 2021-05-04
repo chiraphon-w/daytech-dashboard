@@ -20,6 +20,7 @@ export default function ModalSetting({
     'text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600';
 
   let cityName = 'N/A';
+  let airQ = 'N/A';
   let editJustShout = (
     <HeadSettings title='JustShout text'>
       <fieldset disabled>
@@ -85,6 +86,8 @@ export default function ModalSetting({
         min = minTemp;
         cityName = list.value.name;
       }
+    } else if (list.type === 'iqair') {
+      airQ =  parseInt(list.value.data.current.pollution.aqius);
     }
   });
   let totalTime = (
@@ -104,6 +107,7 @@ export default function ModalSetting({
           <TableSettings title='Total count'>{sumCount}</TableSettings>
           <TableSettings title='Total time'>{totalTime}</TableSettings>
           <TableSettings title='Coldest cities'>{cityName}</TableSettings>
+          <TableSettings title='Bangkok AirQuality'>{airQ}</TableSettings>
         </div>
       </HeadSettings>
       {editJustShout}

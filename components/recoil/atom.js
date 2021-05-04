@@ -1,6 +1,6 @@
 import { atom } from 'recoil'; //useState
 
-export const setTimerState = atom({
-  key: 'setTimer',
+export const resetAllTimerState = atom({
+  key: 'resetAllTimer',
   default: false,
 });
