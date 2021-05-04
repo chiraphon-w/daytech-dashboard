@@ -2,10 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import Card from '../components/Layouts/Card';
 import Button from '../components/Buttons/Button';
 import { IoClose } from 'react-icons/io5';
+import { useRecoilState } from 'recoil';
+import { setTimerState } from './recoil/atom';
 
 export default function Timer({ list, onDelete, onUpdateValue }) {
   const timer = list.value;
-  const [timerOn, setTimerOn] = useState(false);
+  // const [timerOn, setTimerOn] = useState(false);
+  const [timerOn, setTimerOn] = useRecoilState(setTimerState);
 
   useEffect(() => {
     let interval = null;

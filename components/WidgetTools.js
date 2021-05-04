@@ -28,6 +28,8 @@ import AddWeather from './AddWidgets/AddWeather';
 import Weather from './Weather';
 import AirQuality from './AirQuality';
 import iqair from '../pages/api/iqair';
+import { setTimerState } from './recoil/atom';
+import { useRecoilState } from 'recoil';
 
 export default function WidgetTools() {
   let ct = 'mx-auto text-4xl';
@@ -47,6 +49,7 @@ export default function WidgetTools() {
   const [listAllWidgets, setListAllWidgets] = useState([]);
   const [selectedOption, setSelectedOption] = useState('');
   const [defaultValueShout, setDefaultValueShout] = useState([]);
+  const [timerOn, setTimerOn] = useRecoilState(setTimerState);
 
   useEffect(() => {
     getLocal();
@@ -166,6 +169,8 @@ export default function WidgetTools() {
         setSelectedOption('counter');
         list.value = 0;
       } else if (selectedOption === list.type) {
+        console.log('setTimerOn', timerOn);
+        setTimerOn(false);
         list.value = 0;
       }
       newWidgets.push(list);
@@ -334,11 +339,7 @@ export default function WidgetTools() {
           <Button doClick={() => handleClick()} disabled={false}>
             <RiAddCircleLine className={iconSty} /> Add Widget
           </Button>
-          <Button
-            doClick={handleSetting}
-            checkColor='darkGray'
-            disabled={true}
-          >
+          <Button doClick={handleSetting} checkColor='darkGray' disabled={true}>
             <RiSettings3Line className={iconSty} /> Settings
           </Button>
         </div>
