@@ -36,14 +36,12 @@ export default function WidgetTools() {
   let iconSty = 'inline-block text-xl relative -top-0.5';
   let settingsBtn =
     'text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600';
-  let disabled = false;
 
   const [modalActiveMenu, setModalActiveMenu] = useState(false);
   const [modalActiveJustSay, setModalActiveJustSay] = useState(false);
   const [modalActiveJustShout, setModalActiveJustShout] = useState(false);
   const [modalActiveCounter, setModalActiveCounter] = useState(false);
   const [modalActiveWeather, setModalActiveWeather] = useState(false);
-  const [modalActiveAir, setModalActiveAir] = useState(false);
   const [modalActiveSetting, setModalActiveSetting] = useState(false);
 
   const [listAllWidgets, setListAllWidgets] = useState([]);
@@ -124,7 +122,6 @@ export default function WidgetTools() {
     setModalActiveJustShout(false);
     setModalActiveCounter(false);
     setModalActiveWeather(false);
-    setModalActiveAir(false);
     setModalActiveSetting(false);
   };
 
@@ -334,13 +331,13 @@ export default function WidgetTools() {
       <h2 className='text-xl undefined'>Widgets</h2>
       <div className='pt-3'>
         <div className='mb-4 space-x-1'>
-          <Button doClick={() => handleClick()} disabled={disabled}>
+          <Button doClick={() => handleClick()} disabled={false}>
             <RiAddCircleLine className={iconSty} /> Add Widget
           </Button>
           <Button
             doClick={handleSetting}
             checkColor='darkGray'
-            disabled={!disabled}
+            disabled={true}
           >
             <RiSettings3Line className={iconSty} /> Settings
           </Button>

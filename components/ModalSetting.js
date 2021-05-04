@@ -15,13 +15,11 @@ export default function ModalSetting({
   let sumTime = 0;
   let min = 99999;
   let minTemp = 0;
-  let disabled = true;
   let inputSty = 'w-full px-2.5 py-1 border focus:outline-none rounded-md';
   let settingsBtn =
     'text-white focus:outline-none px-4 py-1 rounded-md bg-red-500 hover:bg-red-600';
 
   let cityName = 'N/A';
-  let pmCityName = 'N/A';
   let editJustShout = (
     <HeadSettings title='JustShout text'>
       <fieldset disabled>
@@ -35,7 +33,7 @@ export default function ModalSetting({
             />
           </div>
           <div>
-            <Button disabled={disabled}>Edit</Button>
+            <Button disabled={true}>Edit</Button>
           </div>
         </form>
       </fieldset>
@@ -68,7 +66,7 @@ export default function ModalSetting({
                   />
                 </div>
                 <div>
-                  <Button disabled={!disabled}>Edit</Button>
+                  <Button disabled={false}>Edit</Button>
                 </div>
               </form>
               <div className='text-red-600 text-xs mt-1'>{checkError}</div>

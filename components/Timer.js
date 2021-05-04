@@ -4,7 +4,6 @@ import Button from '../components/Buttons/Button';
 import { IoClose } from 'react-icons/io5';
 
 export default function Timer({ list, onDelete, onUpdateValue }) {
-  let disabled = true;
   const timer = list.value;
   const [timerOn, setTimerOn] = useState(false);
 
@@ -14,7 +13,6 @@ export default function Timer({ list, onDelete, onUpdateValue }) {
     if (timerOn) {
       // start
       interval = setInterval(() => {
-        // onUpdateValue(list.id, list.value + 1000);
         savedCallback.current();
       }, 1000);
     } // pause
@@ -66,27 +64,27 @@ export default function Timer({ list, onDelete, onUpdateValue }) {
           </div>
         </div>
         {!timerOn && (
-          <Button doClick={handleClickStart} disabled={!disabled}>
+          <Button doClick={handleClickStart} disabled={false}>
             Start
           </Button>
         )}
         {timerOn && (
-          <Button doClick={handleClickPause} disabled={!disabled}>
+          <Button doClick={handleClickPause} disabled={false}>
             Pause
           </Button>
         )}
         {!timerOn && timer == 0 && (
-          <Button doClick={handleClickReset} disabled={disabled}>
+          <Button doClick={handleClickReset} disabled={true}>
             Reset
           </Button>
         )}
         {timerOn && (
-          <Button doClick={handleClickReset} disabled={!disabled}>
+          <Button doClick={handleClickReset} disabled={false}>
             Reset
           </Button>
         )}
         {!timerOn && timer > 0 && (
-          <Button doClick={handleClickReset} disabled={!disabled}>
+          <Button doClick={handleClickReset} disabled={false}>
             Reset
           </Button>
         )}

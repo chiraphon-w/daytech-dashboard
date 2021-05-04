@@ -11,7 +11,6 @@ export default function Counter({ list, onDelete, onUpdateValue }) {
 
   let resetButton;
   let decrease;
-  let disabled = true;
 
   const handleClick = () => {
     onUpdateValue(list.id, 0);
@@ -19,14 +18,14 @@ export default function Counter({ list, onDelete, onUpdateValue }) {
 
   if (count == 0) {
     resetButton = (
-      <Button doClick={handleClick} disabled={disabled}>
+      <Button doClick={handleClick} disabled={true}>
         Set zero
       </Button>
     );
     decrease = <button className={`${countClass} text-gray-300`}>-</button>;
   } else {
     resetButton = (
-      <Button doClick={handleClick} disabled={!disabled}>
+      <Button doClick={handleClick} disabled={false}>
         Set zero
       </Button>
     );
