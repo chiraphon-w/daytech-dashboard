@@ -106,16 +106,12 @@ export default function ModalSetting({
           <TableSettings title='Total count'>{sumCount}</TableSettings>
           <TableSettings title='Total time'>{totalTime}</TableSettings>
           <TableSettings title='Coldest cities'>{cityName}</TableSettings>
-          <TableSettings title='Most polluted cities'>
-            {pmCityName}
-          </TableSettings>
         </div>
       </HeadSettings>
       {editJustShout}
       {children}
       <HeadSettings title='Delete Zone'>
         <button onClick={handleClear} className={`${settingsBtn} w-full mb-1`}>
-          {' '}
           Delete all widgets
         </button>
       </HeadSettings>

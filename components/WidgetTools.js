@@ -27,7 +27,6 @@ import JustShout from './JustShout';
 import AddWeather from './AddWidgets/AddWeather';
 import Weather from './Weather';
 import AirQuality from './AirQuality';
-import AddAirQuality from './AddWidgets/AddAirQuality';
 import iqair from '../pages/api/iqair';
 
 export default function WidgetTools() {
@@ -100,9 +99,9 @@ export default function WidgetTools() {
   const handleAir = async (e) => {
     e.preventDefault();
     try {
-      const res = await iqair.get('/v2/nearest_city', {
+      const res = await iqair.get('/v2/city', {
         params: {
-          // city: "Bang Bon",
+          city: 'Bang Bon',
           state: 'Bangkok',
           country: 'Thailand',
           key: 'ed9ce571-0340-4567-972c-a714e9b095e2',
@@ -112,13 +111,10 @@ export default function WidgetTools() {
       // destructuring array
       const { data } = res;
       console.log('AddAirQuality data : ', data.data);
-      console.log('AddAirQuality country : ', data.data.country);
-      console.log('AddAirQuality state : ', data.data.state);
-      console.log('AddAirQuality aqius : ', data.data.current.pollution.aqius);
 
       handleAdd('iqair', data);
     } catch {
-      handleAdd('iqairNF', 'test'); //City not found!
+      handleAdd('iqairNF', 'City not found'); //City not found!
     }
     setModalActiveMenu(false);
   };
@@ -163,7 +159,6 @@ export default function WidgetTools() {
         widget.date = dateTime();
       }
     });
-
     setListAllWidgets(newWidgets);
   };
 
@@ -214,7 +209,6 @@ export default function WidgetTools() {
       }
       newListAllWidgets.push(data);
     });
-
     setListAllWidgets(newListAllWidgets);
   };
 
@@ -421,11 +415,7 @@ export default function WidgetTools() {
             <AddWeather onAdd={handleAdd} />
           </Modal>
         )}
-        {modalActiveAir && (
-          <Modal onCancel={handleCancel}>
-            <AddAirQuality onAdd={handleAdd} />
-          </Modal>
-        )}
+
         {modalActiveSetting && (
           <Modal onCancel={handleCancel}>
             <ModalSetting
@@ -445,7 +435,6 @@ export default function WidgetTools() {
                     <option value='timer'>All timers</option>
                   </select>
                   <button onClick={handleReset} className={settingsBtn}>
-                    {' '}
                     Set zero
                   </button>
                 </div>

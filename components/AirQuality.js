@@ -22,11 +22,17 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
   let dataTemp;
   let reBtnCard;
   let h3Sty = 'text-xl font-bold capitalize';
-
-  let aqius = parseInt(list.value.data.current.pollution.aqius);
+  let aqius;
   let iconSty;
   let iconColor;
   let desc;
+  if(list){
+    aqius = parseInt(list.value.data.current.pollution.aqius);
+  } 
+  else{
+    aqius = 0;
+  }
+
   if (aqius >= 0 && aqius < 51) {
     iconSty = faSmile;
     iconColor = 'text-green-400';
@@ -52,7 +58,7 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
     iconColor = 'text-pink-900';
     desc = 'Hazardous';
   }
-  if (list.type === 'weatherNF') {
+  if (list.type === 'iqairNF') {
     dataName = <h3 className={`${h3Sty} text-red-600`}></h3>;
     dataIconDesc = (
       <h4 className='text-red-400 -mt-1'>
@@ -63,7 +69,7 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
     dataTemp = (
       <h2 className='text-red-500 mt-1 text-5xl font-extralight'>--</h2>
     );
-  } else {
+  } else if (list.type === 'iqair') {
     reBtnCard = <MdRefresh />;
     dataName = <h3 className={h3Sty}>{list.value.data.country}</h3>;
     dataIconDesc = (
@@ -92,44 +98,23 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
     onDelete(list);
   };
 
-  const handleEdit = function () {
-    setModalActiveEditWeather(true);
-  };
-  // id, type, value
-  const onEditSubmit = async (id, type, name) => {
-    try {
-      const res = await openweather.get('/data/2.5/weather', {
-        params: {
-          q: name,
-          units: 'metric',
-        },
-      });
-
-      // destructuring array
-      const { data } = res;
-      onEditWeather(id, 'weather', data);
-    } catch {
-      onEditWeather(id, 'weatherNF', name);
-    }
-
-    setModalActiveEditWeather(false);
-  };
-
   const handleRefresh = async () => {
     try {
-      const res = await openweather.get('/data/2.5/weather', {
+      const res = await iqair.get('/v2/city', {
         params: {
-          q: list.value.name,
-          units: 'metric',
+          city: "Bang Bon",
+          state: 'Bangkok',
+          country: 'Thailand',
+          key: 'ed9ce571-0340-4567-972c-a714e9b095e2',
         },
       });
 
-      // destructuring array
       const { data } = res;
-      onEditWeather(list.id, 'weather', data);
+      onEditWeather(list.id, 'iqair', data);
     } catch {
-      onEditWeather(list.id, 'weatherNF', list.value.name);
+      onEditWeather(list.id, 'iqairNF', 'City not found');
     }
+
   };
 
   return (
@@ -146,11 +131,9 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
       <Card
         title='AirQuality'
         closeBtn={<IoClose />}
-        editBtn={<MdEdit />}
         refreshBtn={reBtnCard}
         key={list.id}
         onDelete={handleDelete}
-        onEdit={handleEdit}
         onRefresh={handleRefresh}
         list={list}
       >
@@ -166,34 +149,3 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
     </>
   );
 }
-
-// {
-//     "city": "Bangkok Noi",
-//     "state": "Bangkok",
-//     "country": "Thailand",
-//     "location": {
-//         "type": "Point",
-//         "coordinates": [
-//             100.47798,
-//             13.76266
-//         ]
-//     },
-//     "current": {
-//         "weather": {
-//             "ts": "2021-04-27T15:00:00.000Z",
-//             "tp": 27,
-//             "pr": 1013,
-//             "hu": 68,
-//             "ws": 0.69,
-//             "wd": 78,
-//             "ic": "04n"
-//         },
-//         "pollution": {
-//             "ts": "2021-04-27T16:00:00.000Z",
-//             "aqius": 61,
-//             "mainus": "p2",
-//             "aqicn": 24,
-//             "maincn": "p2"
-//         }
-//     }
-// }
