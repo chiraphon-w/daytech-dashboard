@@ -50,7 +50,7 @@ export default function AirQuality({ list, onDelete, onEditWeather }) {
       iconSty = faTired;
       iconColor = 'text-pink-700';
       desc = 'Very Unhealthy';
-    } else if (aqius > 300 && aqius < 501) {
+    } else{
       iconSty = faDizzy;
       iconColor = 'text-pink-900';
       desc = 'Hazardous';
